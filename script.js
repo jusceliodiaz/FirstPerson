@@ -71,9 +71,18 @@ function enterScene(sceneId) {
     mainVideo.src = scene.video;
     mainVideo.play().catch(() => {});
     mainVideo.style.display = 'block';
+    // fade out do canvas revelando o vídeo
+    seqCanvas.style.transition = 'opacity 500ms ease';
+    seqCanvas.style.opacity    = '0';
+    setTimeout(() => {
+      seqCanvas.classList.remove('active');
+      seqCanvas.style.opacity    = '';
+      seqCanvas.style.transition = '';
+    }, 500);
   } else {
     mainVideo.pause();
     mainVideo.style.display = 'none';
+    seqCanvas.classList.remove('active');
   }
 
   setActive(sceneId);
@@ -93,7 +102,7 @@ async function navigateTo(targetId) {
 
   try {
     const frames = await preload(seqId);
-    await playSequence(frames);
+    await playSequence(frames, CONFIG.sequences[seqId].reverse === true);
     enterScene(targetId);
   } catch (err) {
     console.error('Erro na sequência:', err);
@@ -132,14 +141,15 @@ function preload(seqId) {
 
 // ─── Playback ─────────────────────────────────────────────────────────────────
 
-function playSequence(frames) {
+function playSequence(frames, reverse = false) {
   return new Promise(resolve => {
     seqCanvas.classList.add('active');
-    let index = 0;
+    let index = reverse ? frames.length - 1 : 0;
 
     function loop() {
       drawCover(frames[index]);
-      if (++index >= frames.length) { resolve(); return; }
+      index += reverse ? -1 : 1;
+      if (reverse ? index < 0 : index >= frames.length) { resolve(); return; }
       requestAnimationFrame(loop);
     }
     requestAnimationFrame(loop);
