@@ -200,41 +200,43 @@ html, body {
 #track.show { opacity: 1; }
 
 #track-pts {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-  width: 320px;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
 }
 
 .t-pt {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 18px;
-  border-radius: 999px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
   border: 1px solid rgba(0,0,0,.08);
   background: rgba(255,255,255,.22);
   cursor: none;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: rgba(30,30,30,.65);
-  white-space: nowrap;
+  color: rgba(20,20,20,.6);
   user-select: none;
   touch-action: manipulation;
   transition: background var(--trans), border-color var(--trans), color var(--trans);
 }
+.t-pt svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+.t-pt svg * { pointer-events: none; }
 .t-pt:not(.active):hover {
   border-color: rgba(0,0,0,.15);
   color: rgba(20,20,20,.9);
   background: rgba(255,255,255,.45);
 }
 .t-pt.active {
-  background: rgba(255,255,255,.88);
-  border-color: rgba(255,255,255,.9);
-  color: #1a1a1a;
-  font-weight: 600;
+  background: rgba(20,20,20,.85);
+  border-color: transparent;
+  color: #fff;
 }
 @media (hover: none) {
   #track {
@@ -252,8 +254,7 @@ html, body {
     padding-bottom: max(10px, env(safe-area-inset-bottom, 10px));
   }
   #track-pts {
-    grid-template-columns: repeat(3, 1fr);
-    width: min(320px, 90vw);
+    flex-direction: row;
   }
   .t-pt {
     cursor: pointer;
@@ -269,6 +270,39 @@ html, body {
     content: '';
     position: absolute;
     inset: -16px;
+  }
+}
+
+/* ── Scene tag ── */
+#scene-tag {
+  position: fixed;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: var(--glass);
+  backdrop-filter: blur(40px) saturate(1.8);
+  -webkit-backdrop-filter: blur(40px) saturate(1.8);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  padding: 7px 20px;
+  box-shadow: var(--shadow);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(20,20,20,.75);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+#scene-tag.show { opacity: 1; }
+@media (hover: none) {
+  #scene-tag {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(220,220,218,.92);
   }
 }
 

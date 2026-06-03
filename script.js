@@ -225,9 +225,10 @@ function buildTrack() {
   wrap.id = 'track-pts';
   CONFIG.timeline.forEach(item => {
     const btn = document.createElement('button');
-    btn.className   = 't-pt';
-    btn.dataset.id  = item.id;
-    btn.textContent = item.label;
+    btn.className  = 't-pt';
+    btn.dataset.id = item.id;
+    btn.setAttribute('aria-label', item.label);
+    btn.innerHTML  = item.icon || item.label;
     btn.addEventListener('click', () => navigateTo(item.id));
     wrap.appendChild(btn);
   });
@@ -239,6 +240,12 @@ function setActive(id) {
   document.querySelectorAll('.t-pt').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.id === id);
   });
+
+  const item    = CONFIG.timeline.find(t => t.id === id);
+  const tag     = document.getElementById('scene-tag');
+  if (!item || !tag) return;
+  tag.textContent = item.label;
+  tag.classList.add('show');
 }
 
 // ─── Cursor (desktop only) ────────────────────────────────────────────────────
