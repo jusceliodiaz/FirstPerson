@@ -1,26 +1,43 @@
 const CONFIG = {
-  video: 'images/1.webm',
   timeline: [
-    { id: 'aereo',    label: 'Vista Aérea' },
-    { id: 'pool',     label: 'Pool'        }
+    { id: "aereo",   label: "Vista Aérea" },
+    { id: "pool",    label: "Pool"        },
+    { id: "jardim",  label: "Jardim"      },
+    { id: "living",  label: "Living"      },
+    { id: "kitchen", label: "Kitchen"     },
   ],
-  poi: {
-    x: 50, y: 55,
-    label: 'Pool',
-    target: 'pool'
+
+  scenes: {
+    aereo:   { video: "images/1.webm", pois: [] },
+    pool:    { video: null,            pois: [] },
+    living:  { video: null,            pois: [] },
+    jardim:  { video: null,            pois: [] },
+    kitchen: { video: null,            pois: [] },
   },
+
   sequences: {
-    'aereo-to-pool': {
-      folder: 'SEQ/',
-      prefix: 'aereo_to_piscina_',
+    "aereo-to-pool": {
+      folder: "images/seq/",
+      prefix: "aereo_to_piscina_",
       from: 0,
       to: 47,
-      pad: 2,      // 00, 01 … 47
-      ext: 'jpg',
-      fps: 30
-    }
+      pad: 2,
+      ext: "jpg",
+      fps: 30,
+    },
+    "pool-to-living": {
+      folder: "images/seq/",
+      prefix: "pool_to_living_",
+      from: 0,
+      to: 72,
+      pad: 2,
+      ext: "jpg",
+      fps: 30,
+    },
   },
+
   transitions: {
-    aereo: { pool: 'aereo-to-pool' }
-  }
+    aereo: { pool: "aereo-to-pool" },
+    pool: { living: "pool-to-living" },
+  },
 };

@@ -4,13 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>ArchViz Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <video id="main-video" autoplay muted loop playsinline></video>
-  <canvas id="seq-canvas"></canvas>
-  <div id="poi-layer"></div>
-  <nav id="timeline"></nav>
+  <!-- Cursor custom -->
+  <div id="cursor"></div>
+  <div id="ring"></div>
+
+  <!-- Grain/noise -->
+  <div id="noise"></div>
+
+  <!-- Stage: vídeo + canvas + vignette -->
+  <div id="stage">
+    <video id="main-video" autoplay muted loop playsinline></video>
+    <canvas id="seq-canvas"></canvas>
+    <div id="poi-layer"></div>
+  </div>
+
+  <!-- Dock inferior de navegação -->
+  <div id="track"></div>
+
+  <!-- Debug HUD -->
+  <div id="debug-hud" hidden>
+    <span id="debug-mode">DEBUG ON — clique para pegar coordenadas</span>
+    <span id="debug-coords">—</span>
+  </div>
 
   <script src="scenes.js"></script>
   <script src="script.js"></script>
