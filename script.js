@@ -12,7 +12,10 @@ const MOBILE = window.matchMedia('(hover: none)').matches || window.innerWidth <
 
 let currentScene = 'aereo';
 let busy         = false;
+let navGen       = 0;
+let poiTimer     = null;
 const cache      = new Map();
+const videoBlobs = new Map();
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
 
@@ -20,7 +23,8 @@ window.addEventListener('load', () => {
   resizeCanvas();
   if (!MOBILE) initCursor();
   buildTrack();
-  showPoster('images/seq/aereo_to_piscina_00.jpg', () => startScene('aereo'));
+  showPoster(CONFIG.poster || 'images/seq_arch/aereo_to_piscina_00.jpg', () => startScene('aereo'));
+  preloadAllVideos();
 });
 
 window.addEventListener('resize', resizeCanvas);
@@ -33,6 +37,30 @@ function resizeCanvas() {
   seqCanvas.style.width  = window.innerWidth  + 'px';
   seqCanvas.style.height = window.innerHeight + 'px';
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+// ─── Video Preload ────────────────────────────────────────────────────────────
+
+function preloadAllVideos() {
+  const videos = [...new Set(
+    Object.values(CONFIG.scenes)
+      .map(s => s.video)
+      .filter(Boolean)
+  )];
+
+  // Primeiro vídeo (cena inicial) tem prioridade — os demais carregam em sequência
+  const loadOne = (src) =>
+    fetch(src)
+      .then(r => r.blob())
+      .then(blob => { videoBlobs.set(src, URL.createObjectURL(blob)); })
+      .catch(() => {});
+
+  // Carrega o aereo primeiro, depois o restante em paralelo
+  const first = CONFIG.scenes['aereo']?.video;
+  const rest  = videos.filter(v => v !== first);
+
+  const chain = first ? loadOne(first) : Promise.resolve();
+  chain.then(() => Promise.all(rest.map(loadOne)));
 }
 
 // ─── Poster ───────────────────────────────────────────────────────────────────
@@ -63,11 +91,15 @@ function startScene(sceneId) {
     return;
   }
 
-  mainVideo.src  = scene.video;
+  // Captura a geração atual — callbacks disparados por cenas anteriores são ignorados
+  const gen = navGen;
+
+  mainVideo.src  = videoBlobs.get(scene.video) || scene.video;
   mainVideo.loop = true;
   mainVideo.load();
 
   const onReady = () => {
+    if (gen !== navGen) return;
     mainVideo.play().catch(() => {});
     fadeCanvas();
   };
@@ -75,7 +107,6 @@ function startScene(sceneId) {
   if (mainVideo.readyState >= 3) {
     onReady();
   } else {
-    // loadeddata dispara mais cedo que canplay — suficiente para mostrar o vídeo
     const evt = MOBILE ? 'loadeddata' : 'canplay';
     mainVideo.addEventListener(evt, onReady, { once: true });
     setTimeout(onReady, MOBILE ? 3000 : 5000);
@@ -101,17 +132,24 @@ async function navigateTo(targetId) {
   if (!seqId) return;
 
   busy = true;
+  const gen = ++navGen;
   hidePOIs();
 
   try {
     const frames = await loadWithLoader(seqId);
-    await playSequence(frames, CONFIG.sequences[seqId].reverse === true);
+    if (gen !== navGen) return;
+    await playSequence(frames, CONFIG.sequences[seqId].reverse === true, gen);
+    if (gen !== navGen) return;
     startScene(targetId);
   } catch (err) {
-    console.error('Erro na sequência:', err);
-    seqCanvas.classList.remove('active');
+    if (gen === navGen) {
+      console.error('Erro na sequência:', err);
+      seqCanvas.classList.remove('active');
+    }
   } finally {
-    busy = false;
+    if (gen === navGen) {
+      setTimeout(() => { if (gen === navGen) busy = false; }, 350);
+    }
   }
 }
 
@@ -126,8 +164,11 @@ function loadWithLoader(seqId) {
 function preload(seqId) {
   if (cache.has(seqId)) return cache.get(seqId);
 
-  const seq   = CONFIG.sequences[seqId];
-  // Mobile: carrega 1 frame a cada 2 (metade dos frames, mesma duração visual)
+  const seqBase = CONFIG.sequences[seqId];
+  // Mobile: usa pasta seq_arch_m com imagens 50% menores e quality 35
+  const seq = MOBILE
+    ? { ...seqBase, folder: seqBase.folder.replace('images/seq_arch/', 'images/seq_arch_m/') }
+    : seqBase;
   const step  = MOBILE ? 2 : 1;
   const total = seq.to - seq.from + 1;
   const indices = [];
@@ -166,12 +207,13 @@ function preload(seqId) {
 
 // ─── Playback ─────────────────────────────────────────────────────────────────
 
-function playSequence(frames, reverse = false) {
+function playSequence(frames, reverse = false, gen) {
   return new Promise(resolve => {
     seqCanvas.classList.add('active');
     let index = reverse ? frames.length - 1 : 0;
 
     function loop() {
+      if (gen !== navGen) { resolve(); return; }
       if (frames[index]) drawCover(frames[index]);
       index += reverse ? -1 : 1;
       const done = reverse ? index < 0 : index >= frames.length;
@@ -214,8 +256,9 @@ function renderPOIs(pois) {
 }
 
 function hidePOIs() {
+  clearTimeout(poiTimer);
   poiLayer.classList.add('out');
-  setTimeout(() => { poiLayer.innerHTML = ''; poiLayer.classList.remove('out'); }, 300);
+  poiTimer = setTimeout(() => { poiLayer.innerHTML = ''; poiLayer.classList.remove('out'); }, 300);
 }
 
 // ─── Track ────────────────────────────────────────────────────────────────────
@@ -228,6 +271,7 @@ function buildTrack() {
     btn.className  = 't-pt';
     btn.dataset.id = item.id;
     btn.setAttribute('aria-label', item.label);
+    btn.setAttribute('data-label', item.label);
     btn.innerHTML  = item.icon || item.label;
     btn.addEventListener('click', () => navigateTo(item.id));
     wrap.appendChild(btn);

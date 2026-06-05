@@ -2,7 +2,7 @@ const CONFIG = {
   timeline: [
     { id: "aereo",   label: "Vista Aérea", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>` },
     { id: "pool",    label: "Pool",        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0"/><path d="M2 17c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0"/><path d="M7 5v4M17 5v4M12 3v6"/></svg>` },
-    { id: "jardim",  label: "Jardim",      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2v2M12 16v6M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 10h2M20 10h2M4.22 15.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>` },
+    { id: "jardim",  label: "Jardim",      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="M12 12C12 12 7 9 5 4c4 0 7 3 7 8z"/><path d="M12 12c0 0 5-3 7-8-4 0-7 3-7 8z"/></svg>` },
     { id: "living",  label: "Living",      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3"/><path d="M3 11v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v2H7v-2a2 2 0 0 0-4 0z"/><path d="M5 18v2M19 18v2"/></svg>` },
     { id: "kitchen", label: "Kitchen",     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8z"/><path d="M4 8h16"/><path d="M9 8V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><path d="M10 12h4"/></svg>` },
   ],
@@ -17,7 +17,7 @@ const CONFIG = {
 
   sequences: {
     "aereo-to-pool": {
-      folder: "images/seq/",
+      folder: "images/seq_arch/",
       prefix: "aereo_to_piscina_",
       from: 0,
       to: 47,
@@ -26,13 +26,13 @@ const CONFIG = {
       fps: 30,
     },
     "pool-to-aereo": {
-      folder: "images/seq/",
+      folder: "images/seq_arch/",
       prefix: "aereo_to_piscina_",
       from: 0, to: 47, pad: 2, ext: "jpg",
       reverse: true,
     },
     "pool-to-living": {
-      folder: "images/seq/",
+      folder: "images/seq_arch/",
       prefix: "pool_to_living_",
       from: 0,
       to: 72,
@@ -40,7 +40,7 @@ const CONFIG = {
       ext: "jpg",
     },
     "living-to-pool": {
-      folder: "images/seq/",
+      folder: "images/seq_arch/",
       prefix: "pool_to_living_",
       from: 0,
       to: 72,
@@ -49,7 +49,7 @@ const CONFIG = {
       reverse: true,
     },
     "pool-to-kitchen": {
-      folder: "images/seq/",
+      folder: "images/seq_arch/",
       prefix: "pool_to_kitchen_",
       from: 0,
       to: 72,
@@ -57,29 +57,62 @@ const CONFIG = {
       ext: "jpg",
     },
     "kitchen-to-pool": {
-      folder: "images/seq/",
+      folder: "images/seq_arch/",
       prefix: "pool_to_kitchen_",
       from: 0, to: 72, pad: 2, ext: "jpg",
       reverse: true,
     },
     "pool-to-jardim": {
-      folder: "images/seq/",
+      folder: "images/seq_arch/",
       prefix: "pool_to_jardim_",
-      from: 0, to: 72, pad: 2, ext: "jpg",
+      from: 0, to: 47, pad: 2, ext: "jpg",
     },
     "jardim-to-pool": {
-      folder: "images/seq/",
+      folder: "images/seq_arch/",
       prefix: "pool_to_jardim_",
-      from: 0, to: 72, pad: 2, ext: "jpg",
+      from: 0, to: 47, pad: 2, ext: "jpg",
+      reverse: true,
+    },
+    "aereo-to-jardim": {
+      folder: "images/seq_arch/",
+      prefix: "pano_jardim_",
+      from: 0, to: 47, pad: 2, ext: "jpg",
+    },
+    "jardim-to-aereo": {
+      folder: "images/seq_arch/",
+      prefix: "pano_jardim_",
+      from: 0, to: 47, pad: 2, ext: "jpg",
+      reverse: true,
+    },
+    "aereo-to-kitchen": {
+      folder: "images/seq_arch/",
+      prefix: "pano_cozinha_",
+      from: 0, to: 47, pad: 2, ext: "jpg",
+    },
+    "kitchen-to-aereo": {
+      folder: "images/seq_arch/",
+      prefix: "pano_cozinha_",
+      from: 0, to: 47, pad: 2, ext: "jpg",
+      reverse: true,
+    },
+    "aereo-to-living": {
+      folder: "images/seq_arch/",
+      prefix: "pano_living_",
+      from: 0, to: 47, pad: 2, ext: "jpg",
+    },
+    "living-to-aereo": {
+      folder: "images/seq_arch/",
+      prefix: "pano_living_",
+      from: 0, to: 47, pad: 2, ext: "jpg",
       reverse: true,
     },
     "living-to-kitchen": {
-      folder: "images/seq/",
+      folder: "images/seq_arch/",
       prefix: "living_to_kitchen_",
       from: 0, to: 72, pad: 2, ext: "jpg",
     },
     "kitchen-to-living": {
-      folder: "images/seq/",
+      folder: "images/seq_arch/",
       prefix: "living_to_kitchen_",
       from: 0, to: 72, pad: 2, ext: "jpg",
       reverse: true,
@@ -87,15 +120,21 @@ const CONFIG = {
   },
 
   transitions: {
-    aereo:   { pool:    "aereo-to-pool"    },
+    aereo:   { pool:    "aereo-to-pool",
+               jardim:  "aereo-to-jardim",
+               kitchen: "aereo-to-kitchen",
+               living:  "aereo-to-living"  },
     pool:    { aereo:   "pool-to-aereo",
                living:  "pool-to-living",
                kitchen: "pool-to-kitchen",
                jardim:  "pool-to-jardim"   },
     living:  { pool:    "living-to-pool",
-               kitchen: "living-to-kitchen" },
+               kitchen: "living-to-kitchen",
+               aereo:   "living-to-aereo"   },
     kitchen: { pool:    "kitchen-to-pool",
-               living:  "kitchen-to-living" },
-    jardim:  { pool:    "jardim-to-pool"   },
+               living:  "kitchen-to-living",
+               aereo:   "kitchen-to-aereo"  },
+    jardim:  { pool:    "jardim-to-pool",
+               aereo:   "jardim-to-aereo"  },
   },
 };

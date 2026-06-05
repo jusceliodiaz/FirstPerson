@@ -228,6 +228,33 @@ html, body {
   pointer-events: none;
 }
 .t-pt svg * { pointer-events: none; }
+
+.t-pt {
+  position: relative;
+}
+.t-pt::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(20, 20, 20, 0.88);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.t-pt:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
 .t-pt:not(.active):hover {
   border-color: rgba(0,0,0,.15);
   color: rgba(20,20,20,.9);
@@ -244,24 +271,24 @@ html, body {
     -webkit-backdrop-filter: none;
     background: rgba(220, 220, 218, 0.95);
     bottom: max(16px, env(safe-area-inset-bottom, 16px));
-    left: 0;
-    right: 0;
-    transform: none;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    padding: 10px 16px;
-    padding-bottom: max(10px, env(safe-area-inset-bottom, 10px));
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    border-radius: 20px;
+    padding: 8px 10px;
+    padding-bottom: 8px;
   }
   #track-pts {
     flex-direction: row;
+    gap: 4px;
   }
   .t-pt {
     cursor: pointer;
-    padding: 10px 20px;
-    font-size: 12px;
+    width: 48px;
+    height: 48px;
+    min-height: 44px;
+    padding: 0;
     flex-shrink: 0;
-    min-height: 44px; /* Apple HIG mínimo de área de toque */
   }
   .poi { cursor: pointer; }
   .poi-btn { width: 40px; height: 40px; }
