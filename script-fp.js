@@ -16,7 +16,7 @@ let _w = innerWidth, _h = innerHeight, lastFrame = null;
 
 const LEAD = {
   whatsapp: "5541987831394",
-  empreendimento: "Factory Interactive — Demo",
+  empreendimento: "Demo",
   endpoint: "/api/leads",
 };
 
