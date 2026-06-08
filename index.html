@@ -1,20 +1,20 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Exterior Interativo</title>
-    <meta name="description" content="Explore o empreendimento em 3D com navegação imersiva entre fachada, piscina e áreas de lazer. Archviz interativo de alto padrão." />
+    <title>Interactive Exterior Tour</title>
+    <meta name="description" content="Explore the development in 3D with immersive navigation across the facade, pool, and leisure areas. High-end interactive archviz." />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Exterior Interativo" />
-    <meta property="og:description" content="Navegue pelo empreendimento antes do stand. Tour archviz imersivo com vistas aérea, piscina, living e jardim." />
+    <meta property="og:title" content="Interactive Exterior Tour" />
+    <meta property="og:description" content="Navigate the development before visiting the showroom. Immersive archviz tour with aerial, pool, living and garden views." />
     <meta property="og:image" content="https://factorystudio.works/images/og_firstperson.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:url" content="https://factorystudio.works/firstperson.html" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Exterior Interativo" />
-    <meta name="twitter:description" content="Navegue pelo empreendimento antes do stand. Tour archviz imersivo com vistas aérea, piscina, living e jardim." />
+    <meta name="twitter:title" content="Interactive Exterior Tour" />
+    <meta name="twitter:description" content="Navigate the development before visiting the showroom. Immersive archviz tour with aerial, pool, living and garden views." />
     <meta name="twitter:image" content="https://factorystudio.works/images/og_firstperson.jpg" />
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J"></script>
@@ -48,16 +48,16 @@
     <div id="loader"><span></span><span></span><span></span></div>
 
     <div id="debug-hud" hidden>
-      <span id="debug-mode">DEBUG ON — clique para coordenadas</span>
+      <span id="debug-mode">DEBUG ON — click for coordinates</span>
       <span id="debug-coords">—</span>
     </div>
 
-    <!-- CTA flutuante -->
+    <!-- Floating CTA -->
     <div id="cta-dock">
-      <button id="cta-tour" onclick="startTour()">▶ <span>Tour</span></button>
+      <button id="cta-tour" onclick="startTour()">&#9654; <span>Tour</span></button>
       <button id="cta-visit">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <span>Agendar visita</span>
+        <span>Book a visit</span>
       </button>
       <a id="cta-whats" href="#" target="_blank" rel="noopener">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -67,19 +67,19 @@
       </a>
     </div>
 
-    <!-- Modal de lead -->
+    <!-- Lead capture modal -->
     <div id="lead-modal" hidden>
       <div id="lead-card">
-        <button id="lead-close" aria-label="Fechar">&times;</button>
-        <h3>Agende sua visita</h3>
-        <p>Deixe seus dados e um corretor entra em contato.</p>
+        <button id="lead-close" aria-label="Close">&times;</button>
+        <h3>Book your visit</h3>
+        <p>Leave your details and an agent will get in touch.</p>
         <form id="lead-form">
-          <input name="nome"  type="text"  placeholder="Nome" required />
-          <input name="email" type="email" placeholder="E-mail" required />
-          <input name="fone"  type="tel"   placeholder="WhatsApp" required />
-          <button type="submit">Quero agendar</button>
+          <input name="nome"  type="text"  placeholder="Name"      required />
+          <input name="email" type="email" placeholder="Email"     required />
+          <input name="fone"  type="tel"   placeholder="WhatsApp"  required />
+          <button type="submit">Schedule a visit</button>
         </form>
-        <p id="lead-ok" hidden>Recebido! Em breve entramos em contato. ✓</p>
+        <p id="lead-ok" hidden>Received! We'll be in touch soon. &#x2713;</p>
       </div>
     </div>
 

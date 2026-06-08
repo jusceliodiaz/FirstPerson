@@ -6,29 +6,31 @@ const loaderEl    = document.getElementById('loader');
 const debugHud    = document.getElementById('debug-hud');
 const debugCoords = document.getElementById('debug-coords');
 
-// alpha:false = compositing mais barato
+// alpha:false — cheaper GPU compositing; no transparency needed on the canvas
 const ctx = seqCanvas.getContext('2d', { alpha: false });
 
+// Touch/mobile detection — covers iOS, Android and stylus-only devices
 const MOBILE = window.matchMedia('(hover: none)').matches || window.innerWidth < 768;
 
-const MAX_SEQ = 3;  // LRU: máximo de sequências em memória
+// LRU cap: max number of decoded sequences held in memory at once
+const MAX_SEQ = 3;
 let _w = innerWidth, _h = innerHeight, lastFrame = null;
 
 const LEAD = {
-  whatsapp: "5541987831394",
-  empreendimento: "Demo",
-  endpoint: "/api/leads",
+  whatsapp:      "5541987831394",
+  project:       "Demo",
+  endpoint:      "/api/leads",
 };
 
-const TOUR_ROUTE = ["aereo", "pool", "living", "kitchen", "jardim"];
+const TOUR_ROUTE = ["aerial", "pool", "living", "kitchen", "garden"];
 
-let mode         = "dia";
-let currentScene = 'aereo';
+let currentScene = 'aerial';
 let busy         = false;
 let navGen       = 0;
 let poiTimer     = null;
 let tourTimer    = null;
 let touring      = false;
+let mode         = "day"; // reserved for day/night toggle
 const cache      = new Map();
 const videoBlobs = new Map();
 
@@ -43,17 +45,17 @@ function sessionId() {
 function track(event, props = {}) {
   const payload = {
     event, ...props,
-    slug: CONFIG?.slug,
-    ts: Date.now(),
+    slug:    CONFIG?.slug,
+    ts:      Date.now(),
     session: sessionId(),
-    device: MOBILE ? 'mobile' : 'desktop',
+    device:  MOBILE ? 'mobile' : 'desktop',
   };
   if (window.gtag) gtag('event', event, props);
   navigator.sendBeacon?.('/api/track', JSON.stringify(payload));
 }
 
 let dwellStart = Date.now();
-let dwellScene = 'aereo';
+let dwellScene = 'aerial';
 
 function markDwell(newScene) {
   track('dwell', { scene: dwellScene, ms: Date.now() - dwellStart });
@@ -70,12 +72,13 @@ window.addEventListener('load', () => {
   if (!MOBILE) initCursor();
   buildTrack();
   showPoster('images/seq_arch/aereo_to_piscina_00.jpg', () => startScene(sceneFromHash()));
-  preloadNeighbors('aereo');
+  preloadNeighbors('aerial');
+  // Defer full video preload to idle time so the first frame renders fast
   (window.requestIdleCallback || setTimeout)(() => preloadAllVideos(), 2500);
   initCTA();
 });
 
-// resize inteligente: ignora variações de altura da barra de endereço mobile
+// Smart resize: ignores address-bar height jitter on mobile (< 120px height delta)
 window.addEventListener('resize', () => {
   if (innerWidth === _w && Math.abs(innerHeight - _h) < 120) return;
   _w = innerWidth; _h = innerHeight;
@@ -95,26 +98,26 @@ function resizeCanvas() {
 // ─── Deep link ────────────────────────────────────────────────────────────────
 
 function sceneFromHash() {
-  const id = new URLSearchParams(location.hash.slice(1)).get('cena');
-  return CONFIG.scenes[id] ? id : 'aereo';
+  const id = new URLSearchParams(location.hash.slice(1)).get('scene');
+  return CONFIG.scenes[id] ? id : 'aerial';
 }
 
 function syncHash(sceneId) {
-  history.replaceState(null, '', `#cena=${sceneId}`);
+  history.replaceState(null, '', `#scene=${sceneId}`);
 }
 
 // ─── Video source ─────────────────────────────────────────────────────────────
 
 function videoSrc(scene) {
   let v = scene.video;
-  if (v && (v.dia || v.noite)) v = v[mode] || v.dia;
+  if (v && (v.day || v.night)) v = v[mode] || v.day;
   if (!v) return null;
   if (typeof v === 'string') return v;
   const safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   return (MOBILE || safari) ? (v.mp4 || v.webm) : (v.webm || v.mp4);
 }
 
-// ─── Video Preload ────────────────────────────────────────────────────────────
+// ─── Video preload ────────────────────────────────────────────────────────────
 
 const loadOne = (src) => {
   if (!src || videoBlobs.has(src)) return Promise.resolve();
@@ -135,7 +138,7 @@ function preloadAllVideos() {
   const srcs = [...new Set(
     Object.values(CONFIG.scenes).map(s => videoSrc(s)).filter(Boolean)
   )];
-  const firstSrc = videoSrc(CONFIG.scenes['aereo']);
+  const firstSrc = videoSrc(CONFIG.scenes['aerial']);
   const rest = srcs.filter(s => s !== firstSrc);
   const chain = firstSrc ? loadOne(firstSrc) : Promise.resolve();
   chain.then(() => Promise.all(rest.map(loadOne)));
@@ -151,7 +154,7 @@ function showPoster(src, cb) {
   img.src = src;
 }
 
-// ─── Cena ─────────────────────────────────────────────────────────────────────
+// ─── Scene ────────────────────────────────────────────────────────────────────
 
 function startScene(sceneId) {
   const scene = CONFIG.scenes[sceneId];
@@ -163,9 +166,9 @@ function startScene(sceneId) {
   syncHash(sceneId);
   renderPOIs(scene.pois);
 
+  // Kick off background preloads for adjacent scenes and their sequences
   preloadNeighbors(sceneId);
-  const transitions = CONFIG.transitions[sceneId] || {};
-  Object.values(transitions).forEach(id => preload(id));
+  Object.values(CONFIG.transitions[sceneId] || {}).forEach(id => preload(id));
 
   const src = videoSrc(scene);
   if (!src) { seqCanvas.classList.remove('active'); return; }
@@ -183,6 +186,7 @@ function startScene(sceneId) {
       faded = true;
       fadeCanvas();
     };
+    // Fade out the canvas as soon as the video produces its first frame
     mainVideo.addEventListener('playing',    doFade, { once: true });
     mainVideo.addEventListener('timeupdate', doFade, { once: true });
     mainVideo.play().catch(doFade);
@@ -208,7 +212,7 @@ function fadeCanvas() {
   }, 300);
 }
 
-// ─── Navegação ────────────────────────────────────────────────────────────────
+// ─── Navigation ───────────────────────────────────────────────────────────────
 
 async function navigateTo(targetId) {
   if (busy || targetId === currentScene) return;
@@ -224,7 +228,7 @@ async function navigateTo(targetId) {
     const frames = await loadWithLoader(seqId);
     if (gen !== navGen) return;
 
-    // passa fps correto; no mobile metade dos frames → mesma duração
+    // Mobile loads every other frame, so halve fps to maintain the same wall-clock duration
     const seq = CONFIG.sequences[seqId];
     const fps = (seq.fps || 30) / (MOBILE ? 2 : 1);
     await playSequence(frames, seq.reverse === true, gen, fps);
@@ -233,7 +237,7 @@ async function navigateTo(targetId) {
     startScene(targetId);
   } catch (err) {
     if (gen === navGen) {
-      console.error('Erro na sequência:', err);
+      console.error('Sequence error:', err);
       seqCanvas.classList.remove('active');
     }
   } finally {
@@ -249,10 +253,11 @@ function loadWithLoader(seqId) {
   return p.finally(() => { clearTimeout(timer); loaderEl.classList.remove('visible'); });
 }
 
-// ─── Pré-carregamento (LRU + img.decode) ─────────────────────────────────────
+// ─── Preloading (LRU + img.decode) ────────────────────────────────────────────
 
 function rememberSeq(seqId, promise) {
   cache.set(seqId, promise);
+  // Evict the oldest entry when over the LRU cap
   if (cache.size > MAX_SEQ) {
     const oldest = cache.keys().next().value;
     if (oldest !== seqId) cache.delete(oldest);
@@ -263,16 +268,19 @@ function preload(seqId) {
   if (cache.has(seqId)) return cache.get(seqId);
 
   const seqBase = CONFIG.sequences[seqId];
+  // Mobile: use the half-resolution folder to reduce network load
   const seq = MOBILE
     ? { ...seqBase, folder: seqBase.folder.replace('images/seq_arch/', 'images/seq_arch_m/') }
     : seqBase;
-  const step    = MOBILE ? 2 : 1;
+
+  const step    = MOBILE ? 2 : 1; // skip every other frame on mobile
   const indices = [];
   for (let i = seq.from; i <= seq.to; i += step) indices.push(i);
 
   const frames  = new Array(indices.length);
   let loaded    = 0;
   let failed    = false;
+  // Limit parallel downloads on mobile to avoid saturating a slow connection
   const SLOTS   = MOBILE ? 4 : indices.length;
   let nextLoad  = 0;
 
@@ -285,7 +293,7 @@ function preload(seqId) {
       img.src = `${seq.folder}${seq.prefix}${num}.${seq.ext}`;
 
       img.onload = () => {
-        // pré-decodifica: elimina stutter no primeiro drawImage
+        // Pre-decode eliminates stutter on the first drawImage call
         const ready = img.decode ? img.decode().catch(() => {}) : Promise.resolve();
         ready.then(() => {
           frames[slot] = img;
@@ -294,7 +302,7 @@ function preload(seqId) {
         });
       };
       img.onerror = () => {
-        if (!failed) { failed = true; cache.delete(seqId); reject(new Error(`Falha: ${img.src}`)); }
+        if (!failed) { failed = true; cache.delete(seqId); reject(new Error(`Failed to load: ${img.src}`)); }
       };
     };
     for (let k = 0; k < Math.min(SLOTS, indices.length); k++) loadNext();
@@ -304,7 +312,7 @@ function preload(seqId) {
   return promise;
 }
 
-// ─── Playback (throttle por tempo real, corrige ProMotion 120Hz) ──────────────
+// ─── Playback (real-time throttle, handles 120Hz ProMotion) ───────────────────
 
 function playSequence(frames, reverse = false, gen, fps = 30) {
   return new Promise(resolve => {
@@ -340,7 +348,7 @@ function drawCover(img) {
   lastFrame = img;
 }
 
-// ─── POIs ────────────────────────────────────────────────────────────────────
+// ─── POIs ─────────────────────────────────────────────────────────────────────
 
 function renderPOIs(pois = []) {
   poiLayer.innerHTML = '';
@@ -389,16 +397,16 @@ function openInfo(info) {
   }
   panel.innerHTML = `
     <div id="info-card">
-      <button data-close aria-label="Fechar">&times;</button>
-      ${info.imagem ? `<img src="${info.imagem}" alt="">` : ''}
-      <h3>${info.titulo}</h3>
+      <button data-close aria-label="Close">&times;</button>
+      ${info.image ? `<img src="${info.image}" alt="">` : ''}
+      <h3>${info.title}</h3>
       ${info.area ? `<span class="info-area">${info.area}</span>` : ''}
-      <ul>${(info.itens || []).map(t => `<li>${t}</li>`).join('')}</ul>
+      <ul>${(info.items || []).map(t => `<li>${t}</li>`).join('')}</ul>
     </div>`;
   requestAnimationFrame(() => panel.classList.add('open'));
 }
 
-// ─── Track (dock simples, sem ExpandableTabs) ─────────────────────────────────
+// ─── Track (nav dock) ─────────────────────────────────────────────────────────
 
 function buildTrack() {
   const wrap = document.createElement('div');
@@ -428,7 +436,7 @@ function setActive(id) {
   tag.classList.add('show');
 }
 
-// ─── Tour autoguiado ──────────────────────────────────────────────────────────
+// ─── Auto-tour ────────────────────────────────────────────────────────────────
 
 function startTour() {
   touring = true;
@@ -443,7 +451,7 @@ function startTour() {
   };
   tourTimer = setTimeout(next, 6000);
   const btn = document.getElementById('cta-tour');
-  if (btn) { btn.innerHTML = '■ <span>Parar</span>'; btn.onclick = stopTour; }
+  if (btn) { btn.innerHTML = '&#9646; <span>Stop</span>'; btn.onclick = stopTour; }
 }
 
 function stopTour() {
@@ -451,9 +459,10 @@ function stopTour() {
   clearTimeout(tourTimer);
   document.body.classList.remove('touring');
   const btn = document.getElementById('cta-tour');
-  if (btn) { btn.innerHTML = '▶ <span>Tour</span>'; btn.onclick = startTour; }
+  if (btn) { btn.innerHTML = '&#9654; <span>Tour</span>'; btn.onclick = startTour; }
 }
 
+// Any user interaction stops an in-progress tour
 ['pointerdown', 'keydown'].forEach(ev =>
   document.addEventListener(ev, () => { if (touring) stopTour(); }, { passive: true })
 );
@@ -464,7 +473,7 @@ function initCTA() {
   const wa = document.getElementById('cta-whats');
   if (wa) {
     wa.href = `https://wa.me/${LEAD.whatsapp}?text=` +
-      encodeURIComponent(`Olá! Vi a maquete do ${LEAD.empreendimento} e quero saber mais.`);
+      encodeURIComponent(`Hi! I saw the ${LEAD.project} experience and would like to know more.`);
     wa.addEventListener('click', () => track('cta_whatsapp', { scene: currentScene }));
   }
 
@@ -487,13 +496,13 @@ function initCTA() {
     form.addEventListener('submit', async e => {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(e.target));
-      data.empreendimento = LEAD.empreendimento;
-      data.cena = currentScene;
+      data.project = LEAD.project;
+      data.scene   = currentScene;
       try {
         await fetch(LEAD.endpoint, {
-          method: 'POST',
+          method:  'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+          body:    JSON.stringify(data),
         });
       } catch (_) {}
       track('lead_submit', data);
@@ -504,7 +513,7 @@ function initCTA() {
   }
 }
 
-// ─── Cursor (desktop only) ────────────────────────────────────────────────────
+// ─── Custom cursor (desktop only) ─────────────────────────────────────────────
 
 function initCursor() {
   const cursor = document.getElementById('cursor');
@@ -529,7 +538,7 @@ function initCursor() {
   });
 }
 
-// ─── Debug (tecla D) ──────────────────────────────────────────────────────────
+// ─── Debug mode (press D) ─────────────────────────────────────────────────────
 
 let debugOn = false;
 document.addEventListener('keydown', e => {
