@@ -206,19 +206,31 @@ html, body {
 }
 
 .t-pt {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
+  gap: 0;
   height: 48px;
-  border-radius: 50%;
+  min-width: 48px;
+  max-width: 48px;
+  padding: 0 .5rem;
+  border-radius: 14px;
   border: 1px solid rgba(0,0,0,.08);
   background: rgba(255,255,255,.22);
   cursor: none;
   color: rgba(20,20,20,.6);
   user-select: none;
   touch-action: manipulation;
-  transition: background var(--trans), border-color var(--trans), color var(--trans);
+  overflow: hidden;
+  white-space: nowrap;
+  transition:
+    max-width  .55s cubic-bezier(0.34,1.4,0.64,1),
+    padding    .55s cubic-bezier(0.34,1.4,0.64,1),
+    gap        .55s cubic-bezier(0.34,1.4,0.64,1),
+    background var(--trans),
+    border-color var(--trans),
+    color var(--trans);
 }
 .t-pt svg {
   width: 20px;
@@ -229,29 +241,46 @@ html, body {
 }
 .t-pt svg * { pointer-events: none; }
 
-.t-pt {
-  position: relative;
+/* Label inline — max-width:0 garante que não ocupa espaço no flex quando colapsado */
+.t-label {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+  max-width: 0;
+  opacity: 0;
+  transition:
+    max-width .55s cubic-bezier(0.34,1.4,0.64,1),
+    opacity   .2s  ease .15s;
 }
+.t-pt.active .t-label {
+  max-width: 150px;
+  opacity: 1;
+}
+
+/* Tooltip acima — só para botões não ativos */
 .t-pt::after {
   content: attr(data-label);
   position: absolute;
   bottom: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%) translateY(4px);
-  background: rgba(20, 20, 20, 0.88);
+  background: rgba(20,20,20,.88);
   backdrop-filter: blur(8px);
   color: #fff;
-  font-size: 0.68rem;
+  font-size: .68rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: .08em;
   white-space: nowrap;
   padding: 5px 10px;
   border-radius: 8px;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.18s ease, transform 0.18s ease;
+  transition: opacity .18s ease, transform .18s ease;
 }
-.t-pt:hover::after {
+.t-pt:not(.active):hover::after {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
@@ -261,6 +290,9 @@ html, body {
   background: rgba(255,255,255,.45);
 }
 .t-pt.active {
+  max-width: 180px;
+  padding: 0 1rem;
+  gap: .5rem;
   background: rgba(20,20,20,.85);
   border-color: transparent;
   color: #fff;
@@ -270,25 +302,32 @@ html, body {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     background: rgba(220, 220, 218, 0.95);
-    bottom: max(16px, env(safe-area-inset-bottom, 16px));
+    bottom: max(12px, env(safe-area-inset-bottom, 12px));
     left: 50%;
     right: auto;
     transform: translateX(-50%);
-    border-radius: 20px;
-    padding: 8px 10px;
-    padding-bottom: 8px;
+    border-radius: 14px;
+    padding: 6px 3px;
   }
   #track-pts {
     flex-direction: row;
-    gap: 4px;
+    gap: 1px;
   }
   .t-pt {
     cursor: pointer;
-    width: 48px;
-    height: 48px;
-    min-height: 44px;
-    padding: 0;
+    min-width: 32px;
+    max-width: 32px;
+    height: 32px;
+    min-height: 32px;
+    padding: 0 .15rem;
     flex-shrink: 0;
+    border-radius: 9px;
+  }
+  .t-pt svg { width: 15px; height: 15px; }
+  .t-label { font-size: 10px; }
+  .t-pt.active {
+    max-width: 115px;
+    padding: 0 .4rem;
   }
   .poi { cursor: pointer; }
   .poi-btn { width: 40px; height: 40px; }
@@ -355,6 +394,103 @@ html, body {
 @keyframes ldot {
   0%,80%,100% { transform: scale(.6); opacity: .3; }
   40%         { transform: scale(1);  opacity: 1;  }
+}
+
+/* ── CTA dock ── */
+#cta-dock {
+  position: fixed; z-index: 30;
+  right: 16px; bottom: max(96px, calc(env(safe-area-inset-bottom,16px) + 80px));
+  display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
+}
+#cta-whats, #cta-visit, #cta-tour {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+  padding: 12px 18px; border-radius: 999px; border: none; cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0,0,0,.28); transition: transform .15s var(--ease), opacity .15s var(--ease);
+  white-space: nowrap;
+}
+#cta-whats { background: #25D366; color: #fff; text-decoration: none; }
+#cta-visit { background: var(--warm); color: #1a1408; }
+#cta-tour  { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.18); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+#cta-whats:active, #cta-visit:active, #cta-tour:active { transform: scale(.96); }
+body.touring #cta-dock { opacity: 0.35; pointer-events: none; }
+
+/* ── Lead modal ── */
+#lead-modal {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(5,5,3,.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+#lead-modal[hidden] { display: none; }
+#lead-card {
+  position: relative; width: min(360px, 88vw);
+  background: #14130f; color: #f3efe6; border-radius: 18px; padding: 28px 24px;
+  border: 1px solid rgba(255,255,255,.12); font-family: 'DM Sans', sans-serif;
+}
+#lead-card h3 { font-size: 20px; margin-bottom: 6px; }
+#lead-card > p { font-size: 13px; opacity: .7; margin-bottom: 18px; }
+#lead-form { display: flex; flex-direction: column; gap: 10px; }
+#lead-form input {
+  padding: 12px 14px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.05);
+  color: #fff; font-family: 'DM Sans', sans-serif; font-size: 16px;
+}
+#lead-form input::placeholder { color: rgba(255,255,255,0.35); }
+#lead-form button {
+  margin-top: 6px; padding: 13px; border: none; border-radius: 10px;
+  background: var(--warm); color: #1a1408; font-weight: 700; font-size: 15px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+#lead-close {
+  position: absolute; top: 12px; right: 16px; background: none;
+  border: none; color: #fff; font-size: 26px; line-height: 1; opacity: .6; cursor: pointer;
+}
+#lead-ok { font-size: 14px; color: var(--warm); margin-top: 12px; }
+
+/* ── Info panel (POI tipo info) ── */
+#info-panel {
+  position: fixed; inset: 0; z-index: 90;
+  display: flex; align-items: flex-end; justify-content: center;
+  pointer-events: none;
+}
+#info-panel.open { pointer-events: auto; }
+#info-card {
+  width: min(420px, 92vw);
+  transform: translateY(110%);
+  transition: transform .3s var(--ease);
+  margin-bottom: max(16px, env(safe-area-inset-bottom, 16px));
+  background: #14130f; color: #f3efe6; border-radius: 20px; padding: 0 0 20px;
+  overflow: hidden; border: 1px solid rgba(255,255,255,.12); position: relative;
+}
+#info-panel.open #info-card { transform: translateY(0); }
+#info-card img { width: 100%; height: 180px; object-fit: cover; display: block; }
+#info-card h3 { font-size: 19px; padding: 16px 20px 0; font-family: 'DM Sans', sans-serif; }
+#info-card .info-area {
+  display: inline-block; margin: 6px 20px 0;
+  font-size: 12px; font-weight: 700; letter-spacing: .1em;
+  color: var(--warm); text-transform: uppercase; font-family: 'DM Sans', sans-serif;
+}
+#info-card ul { list-style: none; padding: 12px 20px 0; }
+#info-card li {
+  font-size: 14px; opacity: .8; padding: 6px 0;
+  border-top: 1px solid rgba(255,255,255,.08); font-family: 'DM Sans', sans-serif;
+}
+#info-card [data-close] {
+  position: absolute; top: 10px; right: 14px; z-index: 2;
+  background: rgba(0,0,0,.45); border: none; color: #fff;
+  font-size: 24px; width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── Mobile adjustments para CTA ── */
+@media (max-width: 600px) {
+  #cta-dock {
+    bottom: max(110px, calc(env(safe-area-inset-bottom, 16px) + 100px));
+    right: 12px;
+  }
+  #cta-whats span, #cta-visit span, #cta-tour span { display: none; }
+  #cta-whats, #cta-visit, #cta-tour { padding: 14px; border-radius: 50%; width: 50px; height: 50px; justify-content: center; }
+  #cta-visit svg { stroke: #1a1408; }
 }
 
 /* ── Debug HUD ── */

@@ -2,24 +2,33 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <title>Maquete interativa</title>
-    <!-- Preload do poster e do primeiro vídeo -->
-    <link
-      rel="preload"
-      href="images/seq_arch/aereo_to_piscina_00.jpg"
-      as="image"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Exterior Interativo — Factory Interactive</title>
+    <meta name="description" content="Explore o empreendimento em 3D com navegação imersiva entre fachada, piscina e áreas de lazer. Archviz interativo de alto padrão." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Exterior Interativo — Factory Interactive" />
+    <meta property="og:description" content="Navegue pelo empreendimento antes do stand. Tour archviz imersivo com vistas aérea, piscina, living e jardim." />
+    <meta property="og:image" content="https://factorystudio.works/images/og_firstperson.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://factorystudio.works/firstperson.html" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Exterior Interativo — Factory Interactive" />
+    <meta name="twitter:description" content="Navegue pelo empreendimento antes do stand. Tour archviz imersivo com vistas aérea, piscina, living e jardim." />
+    <meta name="twitter:image" content="https://factorystudio.works/images/og_firstperson.jpg" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", "G-3K51DFTX3J");
+    </script>
+    <link rel="preload" href="images/seq_arch/aereo_to_piscina_00.jpg" as="image" />
     <link rel="preload" href="images/1.webm" as="video" type="video/webm" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <style>
       #btn-back {
@@ -44,15 +53,8 @@
         text-decoration: none;
         transition: background 0.2s, border-color 0.2s, transform 0.2s;
       }
-      #btn-back:hover {
-        background: rgba(255,255,255,0.18);
-        border-color: rgba(255,255,255,0.35);
-        transform: translateX(-2px);
-      }
-      #btn-back svg {
-        flex-shrink: 0;
-        opacity: 0.75;
-      }
+      #btn-back:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.35); transform: translateX(-2px); }
+      #btn-back svg { flex-shrink: 0; opacity: 0.75; }
     </style>
   </head>
   <body>
@@ -60,7 +62,7 @@
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M10 3L5 8l5 5"/>
       </svg>
-      Voltar
+      <span>Voltar</span>
     </a>
 
     <div id="cursor"></div>
@@ -83,7 +85,38 @@
       <span id="debug-coords">—</span>
     </div>
 
-    <script src="scenes.js"></script>
-    <script src="script.js"></script>
+    <!-- CTA flutuante -->
+    <div id="cta-dock">
+      <button id="cta-tour" onclick="startTour()">▶ <span>Tour</span></button>
+      <button id="cta-visit">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Agendar visita</span>
+      </button>
+      <a id="cta-whats" href="#" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"/>
+        </svg>
+        <span>WhatsApp</span>
+      </a>
+    </div>
+
+    <!-- Modal de lead -->
+    <div id="lead-modal" hidden>
+      <div id="lead-card">
+        <button id="lead-close" aria-label="Fechar">&times;</button>
+        <h3>Agende sua visita</h3>
+        <p>Deixe seus dados e um corretor entra em contato.</p>
+        <form id="lead-form">
+          <input name="nome"  type="text"  placeholder="Nome" required />
+          <input name="email" type="email" placeholder="E-mail" required />
+          <input name="fone"  type="tel"   placeholder="WhatsApp" required />
+          <button type="submit">Quero agendar</button>
+        </form>
+        <p id="lead-ok" hidden>Recebido! Em breve entramos em contato. ✓</p>
+      </div>
+    </div>
+
+    <script src="scenes-fp.js"></script>
+    <script src="script-fp.js"></script>
   </body>
 </html>
