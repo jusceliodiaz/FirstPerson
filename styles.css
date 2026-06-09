@@ -73,7 +73,7 @@ html, body {
   background: radial-gradient(ellipse at 50% 55%, transparent 30%, rgba(5,5,3,.65) 100%);
 }
 
-/* ── Video ── */
+/* ── Vídeo ── */
 #main-video {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
@@ -81,7 +81,7 @@ html, body {
   z-index: 1;
 }
 
-/* ── Sequence canvas ── */
+/* ── Canvas de sequência ── */
 #seq-canvas {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
@@ -180,7 +180,7 @@ html, body {
   transform: scale(1.18);
 }
 
-/* ── Track (bottom dock) ── */
+/* ── Track (dock inferior) ── */
 #track {
   position: fixed;
   bottom: 32px;
@@ -241,7 +241,7 @@ html, body {
 }
 .t-pt svg * { pointer-events: none; }
 
-/* Inline label — max-width:0 takes no flex space when collapsed */
+/* Label inline — max-width:0 garante que não ocupa espaço no flex quando colapsado */
 .t-label {
   font-size: 13px;
   font-weight: 500;
@@ -260,7 +260,7 @@ html, body {
   opacity: 1;
 }
 
-/* Tooltip above — inactive buttons only */
+/* Tooltip acima — só para botões não ativos */
 .t-pt::after {
   content: attr(data-label);
   position: absolute;
@@ -331,7 +331,7 @@ html, body {
   }
   .poi { cursor: pointer; }
   .poi-btn { width: 40px; height: 40px; }
-  /* Expands POI touch target without visual change */
+  /* Expande área de toque do POI sem alterar visual */
   .poi::before {
     content: '';
     position: absolute;
@@ -482,7 +482,7 @@ body.touring #cta-dock { opacity: 0.35; pointer-events: none; }
   display: flex; align-items: center; justify-content: center;
 }
 
-/* ── CTA mobile adjustments ── */
+/* ── Mobile adjustments para CTA ── */
 @media (max-width: 600px) {
   #cta-dock {
     bottom: max(110px, calc(env(safe-area-inset-bottom, 16px) + 100px));

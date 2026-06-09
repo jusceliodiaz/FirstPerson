@@ -56,14 +56,18 @@ const CONFIG = {
     "living-to-aerial":  { folder: "images/seq_arch/", prefix: "pano_living_",         from: 0, to: 47, pad: 2, ext: "jpg", fps: 60, reverse: true },
     "living-to-kitchen": { folder: "images/seq_arch/", prefix: "living_to_kitchen_",   from: 0, to: 72, pad: 2, ext: "jpg", fps: 60 },
     "kitchen-to-living": { folder: "images/seq_arch/", prefix: "living_to_kitchen_",   from: 0, to: 72, pad: 2, ext: "jpg", fps: 60, reverse: true },
+    "garden-to-living":  { folder: "images/seq_arch/", prefix: "jardim_to_living_",    from: 0, to: 47, pad: 2, ext: "jpg", fps: 60 },
+    "living-to-garden":  { folder: "images/seq_arch/", prefix: "jardim_to_living_",    from: 0, to: 47, pad: 2, ext: "jpg", fps: 60, reverse: true },
+    "garden-to-kitchen": { folder: "images/seq_arch/", prefix: "jardim_to_kitchen_",   from: 0, to: 47, pad: 2, ext: "jpg", fps: 60 },
+    "kitchen-to-garden": { folder: "images/seq_arch/", prefix: "jardim_to_kitchen_",   from: 0, to: 47, pad: 2, ext: "jpg", fps: 60, reverse: true },
   },
 
   // Adjacency map: transitions[from][to] = sequenceId
   transitions: {
     aerial:  { pool: "aerial-to-pool",  garden: "aerial-to-garden",  kitchen: "aerial-to-kitchen", living: "aerial-to-living" },
     pool:    { aerial: "pool-to-aerial", living: "pool-to-living",    kitchen: "pool-to-kitchen",   garden: "pool-to-garden"   },
-    living:  { pool: "living-to-pool",  kitchen: "living-to-kitchen", aerial: "living-to-aerial"   },
-    kitchen: { pool: "kitchen-to-pool", living: "kitchen-to-living",  aerial: "kitchen-to-aerial"  },
-    garden:  { pool: "garden-to-pool",  aerial: "garden-to-aerial"   },
+    living:  { pool: "living-to-pool",  kitchen: "living-to-kitchen", aerial: "living-to-aerial",  garden: "living-to-garden"   },
+    kitchen: { pool: "kitchen-to-pool", living: "kitchen-to-living",  aerial: "kitchen-to-aerial", garden: "kitchen-to-garden"  },
+    garden:  { pool: "garden-to-pool",  aerial: "garden-to-aerial",   living: "garden-to-living",  kitchen: "garden-to-kitchen" },
   },
 };
