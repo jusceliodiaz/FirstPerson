@@ -13,7 +13,7 @@ const ctx = seqCanvas.getContext('2d', { alpha: false });
 const MOBILE = window.matchMedia('(hover: none)').matches || window.innerWidth < 768;
 
 // LRU cap: max number of decoded sequences held in memory at once
-const MAX_SEQ = 3;
+const MAX_SEQ = 10;
 let _w = innerWidth, _h = innerHeight, lastFrame = null;
 
 const LEAD = {
@@ -166,9 +166,13 @@ function startScene(sceneId) {
   syncHash(sceneId);
   renderPOIs(scene.pois);
 
-  // Kick off background preloads for adjacent scenes and their sequences
+  // Kick off background preloads: direct sequences + 2nd-hop sequences (for BFS paths)
   preloadNeighbors(sceneId);
-  Object.values(CONFIG.transitions[sceneId] || {}).forEach(id => preload(id));
+  const direct = CONFIG.transitions[sceneId] || {};
+  Object.values(direct).forEach(id => preload(id));
+  Object.keys(direct).forEach(neighbor => {
+    Object.values(CONFIG.transitions[neighbor] || {}).forEach(id => preload(id));
+  });
 
   const src = videoSrc(scene);
   if (!src) { seqCanvas.classList.remove('active'); return; }
@@ -214,26 +218,62 @@ function fadeCanvas() {
 
 // ─── Navigation ───────────────────────────────────────────────────────────────
 
+// BFS: finds the shortest sequence of scene hops from `from` to `to`.
+// Returns an array of transition IDs, e.g. ["garden-to-pool","pool-to-living"].
+function findPath(from, to) {
+  if (from === to) return [];
+  const direct = CONFIG.transitions?.[from]?.[to];
+  if (direct) return [direct];
+
+  // BFS over the transitions graph
+  const queue   = [[from, []]];
+  const visited = new Set([from]);
+  while (queue.length) {
+    const [node, path] = queue.shift();
+    for (const neighbor of Object.keys(CONFIG.transitions?.[node] || {})) {
+      if (visited.has(neighbor)) continue;
+      const seqId   = CONFIG.transitions[node][neighbor];
+      const newPath = [...path, seqId];
+      if (neighbor === to) return newPath;
+      visited.add(neighbor);
+      queue.push([neighbor, newPath]);
+    }
+  }
+  return null; // no path found
+}
+
 async function navigateTo(targetId) {
   if (busy || targetId === currentScene) return;
 
-  const seqId = CONFIG.transitions?.[currentScene]?.[targetId];
-  if (!seqId) return;
+  const path = findPath(currentScene, targetId);
+  if (!path || path.length === 0) return;
 
   busy = true;
   const gen = ++navGen;
   hidePOIs();
 
   try {
-    const frames = await loadWithLoader(seqId);
+    // Load all segments; show loader for the entire multi-hop load
+    const timer = setTimeout(() => loaderEl.classList.add('visible'), 400);
+    const loaded = [];
+    try {
+      for (const seqId of path) {
+        const frames = await preload(seqId);
+        loaded.push({ frames, seq: CONFIG.sequences[seqId] });
+      }
+    } finally {
+      clearTimeout(timer);
+      loaderEl.classList.remove('visible');
+    }
+
     if (gen !== navGen) return;
 
-    // Mobile loads every other frame, so halve fps to maintain the same wall-clock duration
-    const seq = CONFIG.sequences[seqId];
-    const fps = (seq.fps || 30) / (MOBILE ? 2 : 1);
-    await playSequence(frames, seq.reverse === true, gen, fps);
+    for (const { frames, seq } of loaded) {
+      const fps = (seq.fps || 30) / (MOBILE ? 2 : 1);
+      await playSequence(frames, seq.reverse === true, gen, fps);
+      if (gen !== navGen) return;
+    }
 
-    if (gen !== navGen) return;
     startScene(targetId);
   } catch (err) {
     if (gen === navGen) {
