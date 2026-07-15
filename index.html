@@ -3,42 +3,57 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Tour Exterior Interativo — 7mm creative Studio</title>
-    <meta name="description" content="Explore o empreendimento em 3D com navegação imersiva entre fachada, piscina e áreas de lazer. Archviz interativo de alto padrão." />
+    <title>Tour Virtual 3D Exterior | Factory Studio — Archviz Interativo</title>
+    <meta name="description" content="Factory Studio — explore o empreendimento em 3D com navegação imersiva entre fachada, piscina e áreas de lazer. Archviz interativo de alto padrão, direto no navegador." />
     <meta name="robots" content="index, follow" />
-    <meta name="author" content="7mm creative Studio" />
-    <meta name="keywords" content="tour virtual imobiliário, archviz interativo, visualização 3D, experiência imersiva, 7mm creative studio" />
+    <meta name="author" content="Factory Studio" />
+    <meta name="keywords" content="Factory Studio, tour virtual 3D, archviz interativo, visualização 3D imobiliário, experiência imersiva arquitetura, tour exterior interativo, factory studio curitiba" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Tour Exterior Interativo — 7mm creative Studio" />
-    <meta property="og:description" content="Navegue pelo empreendimento antes da visita ao estande — tour archviz imersivo com vistas aérea, piscina, living e jardim." />
-    <meta property="og:image" content="https://7mmstudio.com/images/og_firstperson.jpg" />
+    <meta property="og:title" content="Tour Virtual 3D Exterior | Factory Studio" />
+    <meta property="og:description" content="Factory Studio — navegue pelo empreendimento antes da visita ao estande. Tour archviz imersivo com vistas aérea, piscina, living e jardim." />
+    <meta property="og:image" content="https://www.factorystudio.works/images/og_firstperson.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:url" content="https://7mmstudio.com/" />
-    <meta property="og:site_name" content="7mm creative Studio" />
+    <meta property="og:image:alt" content="Tour virtual 3D exterior — Factory Studio" />
+    <meta property="og:url" content="https://www.factorystudio.works/firstperson.html" />
+    <meta property="og:site_name" content="Factory Studio" />
     <meta property="og:locale" content="pt_BR" />
-    <link rel="canonical" href="https://7mmstudio.com/" />
+    <link rel="canonical" href="https://www.factorystudio.works/firstperson.html" />
     <link rel="icon" type="image/png" href="images/fav-icon.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Tour Exterior Interativo — 7mm creative Studio" />
-    <meta name="twitter:description" content="Navegue pelo empreendimento antes da visita ao estande — tour archviz imersivo com vistas aérea, piscina, living e jardim." />
-    <meta name="twitter:image" content="https://7mmstudio.com/images/og_firstperson.jpg" />
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J"></script>
+    <meta name="twitter:site" content="@weare.factory" />
+    <meta name="twitter:title" content="Tour Virtual 3D Exterior | Factory Studio" />
+    <meta name="twitter:description" content="Factory Studio — navegue pelo empreendimento antes da visita ao estande. Tour archviz imersivo com vistas aérea, piscina, living e jardim." />
+    <meta name="twitter:image" content="https://www.factorystudio.works/images/og_firstperson.jpg" />
+    <!-- Google tag (gtag.js) — lazy-loaded after page load -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
       gtag("js", new Date());
       gtag("config", "G-3K51DFTX3J");
+      window.addEventListener('load', function() {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J';
+        document.head.appendChild(s);
+      });
     </script>
     <link rel="preload" href="images/seq_arch/aereo_to_piscina_00.jpg" as="image" />
     <link rel="preload" href="images/1.webm" as="video" type="video/webm" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" /></noscript>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a href="index.html" class="back-btn">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 3L5 8l5 5" />
+      </svg>
+      <span>Voltar</span>
+    </a>
+
     <div id="cursor"></div>
     <div id="ring"></div>
     <div id="noise"></div>
@@ -94,3 +109,4 @@
     <script src="script-fp.js"></script>
   </body>
 </html>
+

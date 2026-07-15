@@ -299,38 +299,35 @@ html, body {
 }
 @media (hover: none) {
   #track {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: rgba(220, 220, 218, 0.95);
     bottom: max(12px, env(safe-area-inset-bottom, 12px));
     left: 50%;
     right: auto;
     transform: translateX(-50%);
-    border-radius: 14px;
-    padding: 6px 3px;
+    border-radius: 18px;
+    padding: 8px 4px;
   }
   #track-pts {
     flex-direction: row;
-    gap: 1px;
+    gap: 2px;
   }
   .t-pt {
     cursor: pointer;
-    min-width: 32px;
-    max-width: 32px;
-    height: 32px;
-    min-height: 32px;
-    padding: 0 .15rem;
+    min-width: 42px;
+    max-width: 42px;
+    height: 42px;
+    min-height: 42px;
+    padding: 0 .2rem;
     flex-shrink: 0;
-    border-radius: 9px;
+    border-radius: 12px;
   }
-  .t-pt svg { width: 15px; height: 15px; }
-  .t-label { font-size: 10px; }
+  .t-pt svg { width: 20px; height: 20px; }
+  .t-label { font-size: 13px; }
   .t-pt.active {
-    max-width: 115px;
-    padding: 0 .4rem;
+    max-width: 150px;
+    padding: 0 .5rem;
   }
   .poi { cursor: pointer; }
-  .poi-btn { width: 40px; height: 40px; }
+  .poi-btn { width: 28px; height: 28px; }
   /* Expande área de toque do POI sem alterar visual */
   .poi::before {
     content: '';
@@ -364,13 +361,6 @@ html, body {
   transition: opacity 300ms ease;
 }
 #scene-tag.show { opacity: 1; }
-@media (hover: none) {
-  #scene-tag {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: rgba(220,220,218,.92);
-  }
-}
 
 /* ── Loader ── */
 #loader {
@@ -404,14 +394,14 @@ html, body {
 }
 #cta-whats, #cta-visit, #cta-tour {
   display: inline-flex; align-items: center; gap: 8px;
-  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
-  padding: 12px 18px; border-radius: 999px; border: none; cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0,0,0,.28); transition: transform .15s var(--ease), opacity .15s var(--ease);
-  white-space: nowrap;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+  padding: 9px 14px; border-radius: 999px; cursor: pointer;
+  background: rgba(255,255,255,0.12); color: #fff;
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.22); transition: transform .15s var(--ease), opacity .15s var(--ease);
+  white-space: nowrap; text-decoration: none;
 }
-#cta-whats { background: #25D366; color: #fff; text-decoration: none; }
-#cta-visit { background: var(--warm); color: #1a1408; }
-#cta-tour  { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.18); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 #cta-whats:active, #cta-visit:active, #cta-tour:active { transform: scale(.96); }
 body.touring #cta-dock { opacity: 0.35; pointer-events: none; }
 
@@ -490,8 +480,39 @@ body.touring #cta-dock { opacity: 0.35; pointer-events: none; }
   }
   #cta-whats span, #cta-visit span, #cta-tour span { display: none; }
   #cta-whats, #cta-visit, #cta-tour { padding: 14px; border-radius: 50%; width: 50px; height: 50px; justify-content: center; }
-  #cta-visit svg { stroke: #1a1408; }
+  .back-btn span { display: none; }
+  .back-btn { padding: 10px; }
 }
+
+/* ── Back button ── */
+.back-btn {
+  position: fixed;
+  top: max(20px, env(safe-area-inset-top, 20px));
+  left: 20px;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: rgba(255,255,255,0.85);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.back-btn:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.35);
+  transform: translateX(-2px);
+}
+.back-btn svg { flex-shrink: 0; opacity: 0.75; }
 
 /* ── Debug HUD ── */
 #debug-hud {
