@@ -16,20 +16,10 @@ const MOBILE = window.matchMedia('(hover: none)').matches || window.innerWidth <
 const MAX_SEQ = 3;
 let _w = innerWidth, _h = innerHeight, lastFrame = null;
 
-const LEAD = {
-  whatsapp:      "5541987831394",
-  project:       "Demo",
-  endpoint:      "/api/leads",
-};
-
-const TOUR_ROUTE = ["aerial", "pool", "living", "kitchen", "garden"];
-
 let currentScene = 'aerial';
 let busy         = false;
 let navGen       = 0;
 let poiTimer     = null;
-let tourTimer    = null;
-let touring      = false;
 let mode         = "day"; // reserved for day/night toggle
 const cache      = new Map();
 const videoBlobs = new Map();
@@ -69,13 +59,12 @@ window.addEventListener('pagehide', () => markDwell(dwellScene));
 
 window.addEventListener('load', () => {
   resizeCanvas();
-  if (!MOBILE) initCursor();
+  initCursor();
   buildTrack();
   showPoster('images/seq_arch/aereo_to_piscina_00.jpg', () => startScene(sceneFromHash()));
   preloadNeighbors('aerial');
   // Defer full video preload to idle time so the first frame renders fast
   (window.requestIdleCallback || setTimeout)(() => preloadAllVideos(), 2500);
-  initCTA();
 });
 
 // Smart resize: ignores address-bar height jitter on mobile (< 120px height delta)
@@ -431,83 +420,6 @@ function setActive(id) {
   });
   const item = CONFIG.timeline.find(t => t.id === id);
   if (!item) return;
-}
-
-// ─── Auto-tour ────────────────────────────────────────────────────────────────
-
-function startTour() {
-  touring = true;
-  document.body.classList.add('touring');
-  track('tour_start', {});
-  let i = TOUR_ROUTE.indexOf(currentScene);
-  const next = () => {
-    if (!touring) return;
-    i = (i + 1) % TOUR_ROUTE.length;
-    navigateTo(TOUR_ROUTE[i]);
-    tourTimer = setTimeout(next, 6000);
-  };
-  tourTimer = setTimeout(next, 6000);
-  const btn = document.getElementById('cta-tour');
-  if (btn) { btn.innerHTML = '&#9646; <span>Stop</span>'; btn.onclick = stopTour; }
-}
-
-function stopTour() {
-  touring = false;
-  clearTimeout(tourTimer);
-  document.body.classList.remove('touring');
-  const btn = document.getElementById('cta-tour');
-  if (btn) { btn.innerHTML = '&#9654; <span>Tour</span>'; btn.onclick = startTour; }
-}
-
-// Any user interaction stops an in-progress tour
-['pointerdown', 'keydown'].forEach(ev =>
-  document.addEventListener(ev, () => { if (touring) stopTour(); }, { passive: true })
-);
-
-// ─── CTA + Lead modal ─────────────────────────────────────────────────────────
-
-function initCTA() {
-  const wa = document.getElementById('cta-whats');
-  if (wa) {
-    wa.href = `https://wa.me/${LEAD.whatsapp}?text=` +
-      encodeURIComponent(`Hi! I saw the ${LEAD.project} experience and would like to know more.`);
-    wa.addEventListener('click', () => track('cta_whatsapp', { scene: currentScene }));
-  }
-
-  const modal = document.getElementById('lead-modal');
-  if (!modal) return;
-
-  const open  = () => { modal.hidden = false; track('lead_open', { scene: currentScene }); };
-  const close = () => { modal.hidden = true; };
-
-  const visitBtn = document.getElementById('cta-visit');
-  if (visitBtn) visitBtn.addEventListener('click', open);
-
-  const closeBtn = document.getElementById('lead-close');
-  if (closeBtn) closeBtn.addEventListener('click', close);
-
-  modal.addEventListener('click', e => { if (e.target === modal) close(); });
-
-  const form = document.getElementById('lead-form');
-  if (form) {
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(e.target));
-      data.project = LEAD.project;
-      data.scene   = currentScene;
-      try {
-        await fetch(LEAD.endpoint, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify(data),
-        });
-      } catch (_) {}
-      track('lead_submit', data);
-      e.target.hidden = true;
-      const ok = document.getElementById('lead-ok');
-      if (ok) ok.hidden = false;
-    });
-  }
 }
 
 // ─── Custom cursor (desktop only) ─────────────────────────────────────────────

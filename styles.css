@@ -386,57 +386,6 @@ html, body {
   40%         { transform: scale(1);  opacity: 1;  }
 }
 
-/* ── CTA dock ── */
-#cta-dock {
-  position: fixed; z-index: 30;
-  right: 16px; bottom: max(96px, calc(env(safe-area-inset-bottom,16px) + 80px));
-  display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
-}
-#cta-whats, #cta-visit, #cta-tour {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
-  padding: 9px 14px; border-radius: 999px; cursor: pointer;
-  background: rgba(255,255,255,0.12); color: #fff;
-  border: 1px solid rgba(255,255,255,0.18);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 6px 18px rgba(0,0,0,.22); transition: transform .15s var(--ease), opacity .15s var(--ease);
-  white-space: nowrap; text-decoration: none;
-}
-#cta-whats:active, #cta-visit:active, #cta-tour:active { transform: scale(.96); }
-body.touring #cta-dock { opacity: 0.35; pointer-events: none; }
-
-/* ── Lead modal ── */
-#lead-modal {
-  position: fixed; inset: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(5,5,3,.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-}
-#lead-modal[hidden] { display: none; }
-#lead-card {
-  position: relative; width: min(360px, 88vw);
-  background: #14130f; color: #f3efe6; border-radius: 18px; padding: 28px 24px;
-  border: 1px solid rgba(255,255,255,.12); font-family: 'DM Sans', sans-serif;
-}
-#lead-card h3 { font-size: 20px; margin-bottom: 6px; }
-#lead-card > p { font-size: 13px; opacity: .7; margin-bottom: 18px; }
-#lead-form { display: flex; flex-direction: column; gap: 10px; }
-#lead-form input {
-  padding: 12px 14px; border-radius: 10px;
-  border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.05);
-  color: #fff; font-family: 'DM Sans', sans-serif; font-size: 16px;
-}
-#lead-form input::placeholder { color: rgba(255,255,255,0.35); }
-#lead-form button {
-  margin-top: 6px; padding: 13px; border: none; border-radius: 10px;
-  background: var(--warm); color: #1a1408; font-weight: 700; font-size: 15px; cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-}
-#lead-close {
-  position: absolute; top: 12px; right: 16px; background: none;
-  border: none; color: #fff; font-size: 26px; line-height: 1; opacity: .6; cursor: pointer;
-}
-#lead-ok { font-size: 14px; color: var(--warm); margin-top: 12px; }
-
 /* ── Info panel (POI tipo info) ── */
 #info-panel {
   position: fixed; inset: 0; z-index: 90;
@@ -471,48 +420,6 @@ body.touring #cta-dock { opacity: 0.35; pointer-events: none; }
   font-size: 24px; width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
 }
-
-/* ── Mobile adjustments para CTA ── */
-@media (max-width: 600px) {
-  #cta-dock {
-    bottom: max(110px, calc(env(safe-area-inset-bottom, 16px) + 100px));
-    right: 12px;
-  }
-  #cta-whats span, #cta-visit span, #cta-tour span { display: none; }
-  #cta-whats, #cta-visit, #cta-tour { padding: 14px; border-radius: 50%; width: 50px; height: 50px; justify-content: center; }
-  .back-btn span { display: none; }
-  .back-btn { padding: 10px; }
-}
-
-/* ── Back button ── */
-.back-btn {
-  position: fixed;
-  top: max(20px, env(safe-area-inset-top, 20px));
-  left: 20px;
-  z-index: 100;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px 10px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  color: rgba(255,255,255,0.85);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-  transition: background 0.2s, border-color 0.2s, transform 0.2s;
-}
-.back-btn:hover {
-  background: rgba(255,255,255,0.18);
-  border-color: rgba(255,255,255,0.35);
-  transform: translateX(-2px);
-}
-.back-btn svg { flex-shrink: 0; opacity: 0.75; }
 
 /* ── Debug HUD ── */
 #debug-hud {

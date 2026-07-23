@@ -47,13 +47,6 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <a href="index.html" class="back-btn">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10 3L5 8l5 5" />
-      </svg>
-      <span>Voltar</span>
-    </a>
-
     <div id="cursor"></div>
     <div id="ring"></div>
     <div id="noise"></div>
@@ -72,37 +65,6 @@
     <div id="debug-hud" hidden>
       <span id="debug-mode">DEBUG ON — click for coordinates</span>
       <span id="debug-coords">—</span>
-    </div>
-
-    <!-- Floating CTA -->
-    <div id="cta-dock">
-      <button id="cta-tour" onclick="startTour()">&#9654; <span>Tour</span></button>
-      <button id="cta-visit">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <span>Book a visit</span>
-      </button>
-      <a id="cta-whats" href="#" target="_blank" rel="noopener">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"/>
-        </svg>
-        <span>WhatsApp</span>
-      </a>
-    </div>
-
-    <!-- Lead capture modal -->
-    <div id="lead-modal" hidden>
-      <div id="lead-card">
-        <button id="lead-close" aria-label="Close">&times;</button>
-        <h3>Book your visit</h3>
-        <p>Leave your details and an agent will get in touch.</p>
-        <form id="lead-form">
-          <input name="nome"  type="text"  placeholder="Name"      required />
-          <input name="email" type="email" placeholder="Email"     required />
-          <input name="fone"  type="tel"   placeholder="WhatsApp"  required />
-          <button type="submit">Schedule a visit</button>
-        </form>
-        <p id="lead-ok" hidden>Received! We'll be in touch soon. &#x2713;</p>
-      </div>
     </div>
 
     <script src="scenes-fp.js"></script>
