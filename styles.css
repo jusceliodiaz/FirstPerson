@@ -17,6 +17,7 @@ html, body {
   background: #0d0d0b;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   cursor: none;
+  user-select: none; -webkit-user-select: none;
 }
 
 /* ── Cursor ── */
