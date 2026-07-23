@@ -440,3 +440,388 @@ html, body {
   font-family: monospace;
   white-space: nowrap;
 }
+
+/* ══════════════════════════════════════════════════════
+   AI STUDIO — Imagem / Vídeo / Voz (Gemini)
+   ══════════════════════════════════════════════════════ */
+
+#ai-dock {
+  position: fixed;
+  top: max(20px, env(safe-area-inset-top, 20px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#ai-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 20px 11px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: #fff;
+  color: #111;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: none;
+  transition: background 0.2s, border-color 0.2s;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+#ai-trigger-btn svg { width: 22px; height: 22px; }
+#ai-trigger-btn:hover, #ai-trigger-btn.active {
+  background: #f0f0f0;
+  border-color: rgba(0,0,0,0.18);
+}
+
+/* ── Botão de voz — círculo que só pulsa durante a conversa ao vivo ── */
+#ai-voice-btn {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: #fff;
+  color: #111;
+  cursor: none;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+#ai-voice-btn svg { width: 18px; height: 18px; position: relative; z-index: 1; }
+#ai-voice-btn:hover {
+  background: #f0f0f0;
+  border-color: rgba(0,0,0,0.18);
+}
+#ai-voice-btn.connecting {
+  background: #fff;
+  border-color: var(--warm);
+  color: var(--warm);
+}
+#ai-voice-btn.live {
+  background: #e05353;
+  border-color: #e05353;
+  color: #fff;
+}
+#ai-voice-pulse-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid #e05353;
+  opacity: 0;
+  pointer-events: none;
+}
+#ai-voice-btn.live #ai-voice-pulse-ring {
+  animation: aiVoicePing 1.4s ease-out infinite;
+}
+@keyframes aiVoicePing {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+#ai-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 70;
+  width: 720px;
+  max-width: 94vw;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.97);
+  transition: opacity 0.3s ease, transform 0.3s var(--ease);
+}
+#ai-panel.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%);
+}
+#ai-panel.dragging {
+  transition: none;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+}
+#ai-panel input, #ai-panel textarea { user-select: text; -webkit-user-select: text; }
+
+#ai-panel-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: grab;
+  touch-action: none;
+}
+#ai-panel-header:active { cursor: grabbing; }
+#ai-panel-title {
+  color: #111;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+#ai-panel-close {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex; align-items: center; justify-content: center;
+  cursor: none;
+  transition: background 0.2s;
+}
+#ai-panel-close:hover { background: rgba(0, 0, 0, 0.12); }
+#ai-panel-close svg {
+  width: 10px; height: 10px;
+  stroke: #111;
+  fill: none; stroke-width: 2; stroke-linecap: round;
+}
+
+#ai-tabbar { display: flex; gap: 4px; padding: 10px 12px 0; }
+.ai-tab-btn {
+  flex: 1;
+  padding: 8px 6px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: none;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.ai-tab-btn:hover { background: rgba(0, 0, 0, 0.04); }
+.ai-tab-btn.active {
+  background: #111;
+  border-color: #111;
+  color: #fff;
+}
+.ai-tab-panel { display: none; flex-direction: row; align-items: flex-start; gap: 20px; }
+.ai-tab-panel.active { display: flex; }
+.ai-tab-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+
+#ai-panel-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.ai-row { display: flex; gap: 10px; }
+.ai-field { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.ai-lbl {
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.ai-field input, .ai-field select, .ai-field textarea {
+  width: 100%; min-width: 0; box-sizing: border-box;
+  background: #fafafa;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  padding: 9px 11px;
+  color: #111;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ai-field input:focus, .ai-field select:focus, .ai-field textarea:focus {
+  border-color: rgba(0, 0, 0, 0.4);
+}
+.ai-field textarea { resize: none; min-height: 80px; line-height: 1.5; }
+.ai-field select option { background: #fff; color: #111; }
+
+.ai-generate-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #111;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: background 0.2s, transform 0.2s;
+}
+.ai-generate-btn:hover { background: #333; transform: scale(1.02); }
+.ai-generate-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.ai-status {
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.55);
+  text-align: center;
+  min-height: 16px;
+  max-height: 56px;
+  overflow-y: auto;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+#ai-img-wrap, #ai-vid-wrap {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f0f0f0;
+  display: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+#ai-img-wrap.visible, #ai-vid-wrap.visible { display: block; }
+
+.ai-result-placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  background: #f0f0f0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.18);
+}
+.ai-result-placeholder svg { width: 42px; height: 42px; }
+/* Hides itself once the real result (previous sibling) becomes visible —
+   no JS needed, just a general sibling selector. */
+#ai-img-wrap.visible ~ #ai-img-placeholder,
+#ai-vid-wrap.visible ~ #ai-vid-placeholder {
+  display: none;
+}
+#ai-result-img, #ai-result-video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+#ai-result-img { cursor: none; }
+#ai-img-zoom-hint {
+  position: absolute;
+  bottom: 7px; left: 7px;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+/* Lightbox */
+#ai-lightbox {
+  position: fixed; inset: 0; z-index: 200;
+  display: none;
+  align-items: center; justify-content: center;
+  background: rgba(0,0,0,.85);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+#ai-lightbox.open { display: flex; }
+#ai-lightbox-img {
+  max-width: 92vw; max-height: 88vh;
+  border-radius: 10px;
+  box-shadow: 0 30px 90px rgba(0,0,0,.6);
+}
+#ai-lightbox-close {
+  position: absolute; top: 20px; right: 20px;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.15);
+  display: flex; align-items: center; justify-content: center;
+  cursor: none;
+  transition: background 0.2s;
+}
+#ai-lightbox-close:hover { background: #f0f0f0; }
+#ai-lightbox-close svg {
+  width: 14px; height: 14px;
+  stroke: #111; stroke-width: 2; fill: none; stroke-linecap: round;
+}
+.ai-result-close {
+  position: absolute; top: 7px; right: 7px;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.15);
+  display: flex; align-items: center; justify-content: center;
+  cursor: none;
+  transition: background 0.2s;
+  z-index: 2;
+}
+.ai-result-close:hover { background: #f0f0f0; }
+.ai-result-close svg {
+  width: 9px; height: 9px;
+  stroke: #111;
+  stroke-width: 2; fill: none; stroke-linecap: round;
+}
+
+.ai-capture-row { display: flex; align-items: center; gap: 10px; }
+.ai-capture-btn {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 10px;
+  color: #111;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: none;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.ai-capture-btn:hover { background: #f0f0f0; }
+.ai-capture-btn.active {
+  background: #111;
+  border-color: #111;
+  color: #fff;
+}
+.ai-capture-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.ai-capture-thumb {
+  flex: 1; min-width: 0; height: 52px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fafafa;
+  border: 1px solid rgba(0,0,0,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(0,0,0,0.35);
+  text-transform: uppercase;
+}
+.ai-capture-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.ai-dl-btn {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  background: #fff;
+  color: #111;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: none;
+  display: none;
+  transition: background 0.2s;
+  text-transform: uppercase;
+}
+.ai-dl-btn.visible { display: block; }
+.ai-dl-btn:hover { background: #f0f0f0; }
+
+@media (max-width: 600px) {
+  #ai-trigger-btn span { display: none; }
+  #ai-trigger-btn { padding: 10px; }
+  #ai-panel { width: 94vw; }
+  .ai-tab-panel { flex-direction: column; }
+}
