@@ -139,6 +139,6 @@ Sequências de imagens **continuam locais** — são muitos arquivos pequenos, i
 ## Convenções de código
 
 - JS puro, sem TypeScript no MVP.
-- Funções pequenas, nomes em inglês, comentários em português quando ajudar.
+- Funções pequenas, nomes em inglês, comentários em inglês (site e SEO mirados na Europa/mercado anglófono — evitar português em qualquer texto de código, meta tag ou conteúdo voltado ao usuário).
 - Estado global em um único objeto `state` em `script.js`.
 - Evitar libs. Se for inevitável, justificar.

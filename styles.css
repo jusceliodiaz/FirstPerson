@@ -74,7 +74,7 @@ html, body {
   background: radial-gradient(ellipse at 50% 55%, transparent 30%, rgba(5,5,3,.65) 100%);
 }
 
-/* ── Vídeo ── */
+/* ── Video ── */
 #main-video {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
@@ -82,8 +82,8 @@ html, body {
   z-index: 1;
 }
 
-/* ── Vídeo ponta B do slider A/B (Pool) — sempre tocando por baixo, corte
-   instantâneo sem transição/fade quando o arraste chega no fim ── */
+/* ── Slider A/B side-B video (Pool) — always playing underneath, instant
+   cut with no transition/fade when the drag reaches the end ── */
 #ab-video-b {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
@@ -96,7 +96,7 @@ html, body {
 #stage.ab-show-b #main-video { opacity: 0; }
 #stage.ab-show-b #ab-video-b { opacity: 1; }
 
-/* ── Canvas de sequência ── */
+/* ── Sequence canvas ── */
 #seq-canvas {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
@@ -195,7 +195,7 @@ html, body {
   transform: scale(1.18);
 }
 
-/* ── Track (dock inferior) ── */
+/* ── Track (bottom dock) ── */
 #track {
   position: fixed;
   bottom: 32px;
@@ -213,7 +213,7 @@ html, body {
 }
 #track.show { opacity: 1; }
 
-/* ── Slider A/B — Pool: escrubbing vídeo dia (ponta A) ⇄ vídeo noite (ponta B) ── */
+/* ── Slider A/B — Pool: scrubbing day video (side A) ⇄ night video (side B) ── */
 #ab-slider {
   position: fixed;
   bottom: 114px;
@@ -342,7 +342,7 @@ html, body {
 }
 .t-pt svg * { pointer-events: none; }
 
-/* Label inline — max-width:0 garante que não ocupa espaço no flex quando colapsado */
+/* Inline label — max-width:0 ensures it takes no flex space when collapsed */
 .t-label {
   font-size: 13px;
   font-weight: 500;
@@ -361,7 +361,7 @@ html, body {
   opacity: 1;
 }
 
-/* Tooltip acima — só para botões não ativos */
+/* Tooltip above — only for inactive buttons */
 .t-pt::after {
   content: attr(data-label);
   position: absolute;
@@ -429,7 +429,7 @@ html, body {
   }
   .poi { cursor: pointer; }
   .poi-btn { width: 28px; height: 28px; }
-  /* Expande área de toque do POI sem alterar visual */
+  /* Expands the POI tap area without changing the visual size */
   .poi::before {
     content: '';
     position: absolute;
@@ -487,7 +487,7 @@ html, body {
   40%         { transform: scale(1);  opacity: 1;  }
 }
 
-/* ── Info panel (POI tipo info) ── */
+/* ── Info panel (info-type POI) ── */
 #info-panel {
   position: fixed; inset: 0; z-index: 90;
   display: flex; align-items: flex-end; justify-content: center;
@@ -542,7 +542,7 @@ html, body {
 }
 
 /* ══════════════════════════════════════════════════════
-   AI STUDIO — Imagem / Vídeo / Voz (Gemini)
+   AI STUDIO — Image / Video / Voice (Gemini)
    ══════════════════════════════════════════════════════ */
 
 #ai-dock {
@@ -580,7 +580,7 @@ html, body {
   border-color: rgba(255, 255, 255, 0.28);
 }
 
-/* ── Botão de voz — círculo que só pulsa durante a conversa ao vivo ── */
+/* ── Voice button — circle that only pulses during the live conversation ── */
 #ai-voice-btn {
   position: relative;
   width: 42px;
