@@ -1278,10 +1278,10 @@ html, body {
 #shop3d-modal.open { display: flex; }
 #shop3d-card {
   position: relative;
-  width: min(760px, 94vw);
+  width: min(988px, 96vw);
   border-radius: 20px;
   overflow: hidden;
-  background: radial-gradient(ellipse at 50% 35%, #2b2a24 0%, #14130f 75%);
+  background: #14130f;
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
   font-family: 'DM Sans', sans-serif;
@@ -1294,6 +1294,7 @@ html, body {
   border: none;
   display: flex; align-items: center; justify-content: center;
   cursor: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   transition: background 0.2s;
 }
 #shop3d-close:hover { background: #fff; }
@@ -1303,6 +1304,7 @@ html, body {
   width: 100%;
   aspect-ratio: 16 / 10;
   touch-action: none;
+  background: radial-gradient(ellipse at 50% 40%, #f5f5f5 0%, #d6d6d6 100%);
 }
 #shop3d-stage canvas { width: 100% !important; height: 100% !important; display: block; }
 #shop3d-loading {
