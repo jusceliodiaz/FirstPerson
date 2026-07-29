@@ -1742,3 +1742,13 @@ html, body {
 }
 #shop-ai-video-result.visible { display: block; }
 #shop-ai-video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+
+/* ── Material tabs (Wood / Floors) ── */
+.shop-price-unit {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+}
+#shop-tabbar { flex-wrap: nowrap; }
+.shop-tab-btn { padding: 9px 4px; font-size: 10px; letter-spacing: 0.07em; }

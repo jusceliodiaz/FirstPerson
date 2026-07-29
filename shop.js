@@ -78,6 +78,94 @@ const SHOP_PRODUCTS = [
     url: "https://www.ikea.com/it/it/p/klippan-divano-a-2-posti-vissle-grigio-s79010614/",
     model: "assets/models/klippan.glb",
     desc: "Compact 2-seat sofa with clean squared lines, metal legs and a grey washable cover."
+  },
+
+  /* ── Wood wall claddings — Leroy Merlin Italia ── */
+  {
+    id: "slash-rovere",
+    cat: "wood",
+    name: "SLASH",
+    variant: "Acoustic slat wall panel, light oak",
+    size: "260×39,3 cm · 1,02 m²",
+    price: 39.90,
+    unit: "panel",
+    store: "Leroy Merlin",
+    img: "https://media.adeo.com/media/4702127/media.jpg?width=640",
+    url: "https://www.leroymerlin.it/prodotti/pannello-decorativo-fonoassorbente-slash-rovere-chiaro-l-260-x-l-39-3-cm-sp-10-mm-1-02-mq-95467041.html",
+    model: "assets/models/slash-rovere.glb",
+    desc: "Sound-absorbing decorative slatted wall panel with a light oak finish on a black felt backing."
+  },
+  {
+    id: "millerighe-noce",
+    cat: "wood",
+    name: "MILLERIGHE",
+    variant: "Acoustic ribbed wall panel, walnut",
+    size: "260×29 cm · 0,75 m²",
+    price: 29.90,
+    unit: "panel",
+    store: "Leroy Merlin",
+    img: "https://media.adeo.com/media/5370224/media.jpg?width=640",
+    url: "https://www.leroymerlin.it/prodotti/pannello-decorativo-fonoassorbente-design-millerighe-noce-l-260-x-l-29-cm-sp-10-mm-0-75-mq-97758233.html",
+    model: "assets/models/millerighe-noce.glb",
+    desc: "Fine-ribbed sound-absorbing decorative wall panel with a warm walnut finish."
+  },
+  {
+    id: "mdf-rovere-scuro",
+    cat: "wood",
+    name: "ACOUSTIC MDF",
+    variant: "2 acoustic slat panels, dark oak",
+    size: "120×60 cm · sp. 21 mm",
+    price: 49.99,
+    unit: "set of 2",
+    store: "Leroy Merlin",
+    img: "https://media.adeo.com/mkp/0d4b03b11d889c069a3f910c5926a87c/media.jpg?width=640",
+    url: "https://www.leroymerlin.it/prodotti/2-pannelli-decorativi-acustici-pannelli-in-fibra-a-media-densita-mdf-120-cm-60-cm-spessore-21-mm-color-rovere-scuro-75694396.html",
+    model: "assets/models/mdf-rovere-scuro.glb",
+    desc: "Set of two MDF acoustic slat panels in dark oak — bold vertical rhythm for feature walls."
+  },
+
+  /* ── Floors — Leroy Merlin Italia ── */
+  {
+    id: "artens-rovere",
+    cat: "floor",
+    name: "ARTENS XL",
+    variant: "Engineered oak parquet, light brushed oak",
+    size: "18×109,2 cm · sp. 14 mm",
+    price: 52.99,
+    unit: "m²",
+    store: "Leroy Merlin",
+    img: "https://media.adeo.com/media/3979692/media.jpg?width=640",
+    url: "https://www.leroymerlin.it/prodotti/parquet-multistrato-xl-artens-in-rovere-chiaro-spazzolato-e-verniciato-natura-sp-14-2-5-mm-1-37-m2-90544741.html",
+    model: "assets/models/artens-rovere.glb",
+    desc: "Engineered oak parquet, light brushed and varnished planks in XL format, rustic natural grade."
+  },
+  {
+    id: "rovere-elegance",
+    cat: "floor",
+    name: "ROVERE ELEGANCE",
+    variant: "Pre-finished Irish oak parquet, vanilla",
+    size: "15×100 cm · sp. 10 mm",
+    price: 79.90,
+    unit: "m²",
+    store: "Leroy Merlin",
+    img: "https://media.adeo.com/media/92285/media.jpg?width=640",
+    url: "https://www.leroymerlin.it/prodotti/parquet-prefinito-s-in-rovere-spazzolato-e-verniciato-elegance-sp-10-3-mm-1-8-m2-35449344.html",
+    model: "assets/models/rovere-elegance.glb",
+    desc: "Pre-finished brushed and varnished Irish oak parquet in a light vanilla tone, elegance grade."
+  },
+  {
+    id: "barlinek-chevron",
+    cat: "floor",
+    name: "BARLINEK",
+    variant: "French chevron oak parquet, honey",
+    size: "13×72,5 cm · sp. 14 mm",
+    price: 72.98,
+    unit: "m²",
+    store: "Leroy Merlin",
+    img: "https://media.adeo.com/media/4528124/media.jpg?width=640",
+    url: "https://www.leroymerlin.it/prodotti/parquet-multistrato-chevron-francese-m-barlinek-in-miele-spazzolato-natura-0-61-m2-92303383.html",
+    model: "assets/models/barlinek-chevron.glb",
+    desc: "French chevron engineered oak parquet in a warm honey tone with a brushed natural finish."
   }
 ];
 
@@ -146,13 +234,14 @@ function shopRenderGrid() {
           </svg>
           <span>AI</span>
         </button>
+        ${p.cat === "wood" || p.cat === "floor" ? "" : `
         <button class="shop-3d-btn" title="View in 3D" onclick="event.stopPropagation();shop3dOpen('${p.id}')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2l8.5 5v10L12 22l-8.5-5V7L12 2z"/>
             <path d="M12 22V12M12 12L3.5 7M12 12l8.5-5"/>
           </svg>
           <span>3D</span>
-        </button>
+        </button>`}
         ${inCart ? '<div class="shop-card-check">✓</div>' : ""}
       </div>
       <div class="shop-card-body">
@@ -160,10 +249,10 @@ function shopRenderGrid() {
         <div class="shop-card-variant">${p.variant}</div>
         <div class="shop-card-size">${p.size}</div>
         <div class="shop-card-footer">
-          <div class="shop-card-price">${shopFmt(p.price)}</div>
+          <div class="shop-card-price">${shopFmt(p.price)}${p.unit ? `<span class="shop-price-unit"> /${p.unit}</span>` : ""}</div>
           <div class="shop-card-actions">
-            <a class="shop-buy-link" href="${p.url}" target="_blank" rel="noopener" title="Buy at IKEA Italia" onclick="event.stopPropagation()">
-              IKEA <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+            <a class="shop-buy-link" href="${p.url}" target="_blank" rel="noopener" title="Buy at ${p.store || 'IKEA Italia'}" onclick="event.stopPropagation()">
+              ${p.store === "Leroy Merlin" ? "LEROY" : "IKEA"} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
             </a>
             <button class="shop-add-btn${inCart ? " added" : ""}" onclick="event.stopPropagation();shopToggleItem('${p.id}')">
               ${inCart ? "Added ✓" : "Add"}
@@ -227,7 +316,7 @@ function shopCloseOrder() {
 
 function shopRenderOrder() {
   const listEl = document.getElementById("shop-order-list");
-  const cats = [["kitchen", "Kitchen"], ["living", "Living"]];
+  const cats = [["kitchen", "Kitchen"], ["living", "Living"], ["wood", "Wood"], ["floor", "Floors"]];
   let html = "";
   cats.forEach(([cat, label]) => {
     const items = shopCartItems().filter(p => p.cat === cat);
@@ -242,7 +331,7 @@ function shopRenderOrder() {
           <div class="shop-order-line-name">${p.name}</div>
           <div class="shop-order-line-variant">${p.variant} · ${p.size}</div>
         </div>
-        <div class="shop-order-line-price">${shopFmt(p.price)}</div>
+        <div class="shop-order-line-price">${shopFmt(p.price)}${p.unit ? `<span class="shop-price-unit"> /${p.unit}</span>` : ""}</div>
         <button class="shop-order-remove" title="Remove" onclick="shopToggleItem('${p.id}')">
           <svg viewBox="0 0 10 10"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg>
         </button>
@@ -280,9 +369,13 @@ function shopPlaceOpen(id) {
     shopAiCloseVideo();
     shopAiVideoStatus("");
     const prompt = document.getElementById("shop-ai-prompt");
-    prompt.placeholder = p.cat === "living"
-      ? `e.g. replace the existing sofa with this ${p.name}, keep everything else the same...`
-      : `e.g. add this ${p.name} to the kitchen, replacing the existing counter...`;
+    const ph = {
+      living: `e.g. replace the existing sofa with this ${p.name}, keep everything else the same...`,
+      kitchen: `e.g. add this ${p.name} to the kitchen, replacing the existing counter...`,
+      wood: `e.g. apply this ${p.name} cladding to the back wall only...`,
+      floor: `e.g. replace the entire floor with this ${p.name} parquet...`
+    };
+    prompt.placeholder = ph[p.cat] || ph.kitchen;
   }
   shopState.placeId = id;
   document.getElementById("shop-place-img").src = p.img;
@@ -355,14 +448,22 @@ async function shopAiGenerate() {
   try {
     const prodImg = await shopProductImageB64(p);
     const userPrompt = document.getElementById("shop-ai-prompt").value.trim();
-    const ref = prodImg
-      ? "Insert the furniture product shown in the SECOND image"
-      : "Insert the following furniture product";
+    const refImg = prodImg ? " shown in the SECOND image" : "";
+    let action;
+    if (p.cat === "wood") {
+      action = `Apply the wood wall cladding${refImg} — ${p.name} (${p.variant}), panel size ${p.size}. ${p.desc} ` +
+        `Cover the most prominent wall of the scene with this cladding, following the wall's perspective, ` +
+        `with realistic panel seams, texture scale, shadows and lighting.`;
+    } else if (p.cat === "floor") {
+      action = `Replace the floor of the scene with the flooring${refImg} — ${p.name} (${p.variant}), plank size ${p.size}. ${p.desc} ` +
+        `Follow the floor plane's perspective with a realistic plank direction, texture scale, reflections and lighting.`;
+    } else {
+      action = `Insert the furniture product${refImg} — ${p.name} (${p.variant}), approx. size ${p.size}. ${p.desc} ` +
+        `Place it naturally in the scene with correct perspective, scale, lighting, shadows and reflections.`;
+    }
     const instruction =
-      `Edit the FIRST image, a photorealistic architectural interior scene. ${ref} — ` +
-      `${p.name} (${p.variant}), approx. size ${p.size}. ${p.desc} ` +
+      `Edit the FIRST image, a photorealistic architectural interior scene. ${action} ` +
       (userPrompt ? `User instruction: ${userPrompt}. ` : "") +
-      `Place it naturally in the scene with correct perspective, scale, lighting, shadows and reflections. ` +
       `Keep the exact same camera angle, framing and photorealistic style of the original scene. ` +
       `Return ONLY the edited image.`;
 
@@ -441,13 +542,9 @@ async function shopAiGenerateVideo() {
 
   /* Best source: the generated image with the furniture placed.
      Fallback: the raw scene capture. */
-  let frameB64 = shopState.resultB64, frameMime = "image/png";
-  if (!frameB64) {
-    if (!shopState.captureB64 || shopState.captureB64.length < 500) await shopOrderCapture();
-    frameB64 = shopState.captureB64;
-    frameMime = "image/jpeg";
-  }
-  if (!frameB64) return shopAiVideoStatus("Generate the image or capture the scene first.");
+  /* The video ALWAYS animates the generated image with the product applied */
+  const frameB64 = shopState.resultB64, frameMime = "image/png";
+  if (!frameB64) return shopAiVideoStatus('Generate the image with "Place furniture in scene" first — the video animates that exact image.');
 
   const userPrompt = document.getElementById("shop-ai-prompt").value.trim();
   const prompt =
