@@ -248,6 +248,23 @@ function shopRenderGrid() {
         <div class="shop-card-name">${p.name}</div>
         <div class="shop-card-variant">${p.variant}</div>
         <div class="shop-card-size">${p.size}</div>
+        <div class="shop-card-quick-actions">
+          <button class="shop-quick-ai-btn" title="Place in your scene with AI" onclick="event.stopPropagation();shopPlaceOpen('${p.id}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 4l1.7 4.3L18 10l-4.3 1.7L12 16l-1.7-4.3L6 10l4.3-1.7L12 4z"/>
+              <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z"/>
+            </svg>
+            <span>AI</span>
+          </button>
+          ${p.cat === "wood" || p.cat === "floor" ? "" : `
+          <button class="shop-quick-3d-btn" title="View in 3D" onclick="event.stopPropagation();shop3dOpen('${p.id}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l8.5 5v10L12 22l-8.5-5V7L12 2z"/>
+              <path d="M12 22V12M12 12L3.5 7M12 12l8.5-5"/>
+            </svg>
+            <span>3D</span>
+          </button>`}
+        </div>
         <div class="shop-card-footer">
           <div class="shop-card-price">${shopFmt(p.price)}${p.unit ? `<span class="shop-price-unit"> /${p.unit}</span>` : ""}</div>
           <div class="shop-card-actions">
