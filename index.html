@@ -98,7 +98,7 @@
         rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap"
     /></noscript>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=3" />
   </head>
   <body>
     <div id="cursor"></div>
@@ -114,6 +114,99 @@
 
     <div id="scene-tag"></div>
     <div id="track"></div>
+
+    <!-- Shop button — opens the IKEA Italia shop panel -->
+    <div id="shop-btn" tabindex="-1" title="Shop" onclick="shopToggle()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l1.5-5h15L21 9" />
+        <path d="M3 9h18v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z" />
+        <path d="M8 13a2 2 0 0 0 4 0M12 13a2 2 0 0 0 4 0" />
+      </svg>
+      <span id="shop-btn-badge"></span>
+    </div>
+
+    <!-- Always-visible order total — appears once furniture is selected -->
+    <div id="shop-total-pill" tabindex="-1" title="Order summary"></div>
+
+    <!-- SHOP PANEL — right drawer -->
+    <div id="shop-panel">
+      <div id="shop-panel-header">
+        <div id="shop-panel-title">Shop <span>IKEA Italia</span></div>
+        <div id="shop-panel-close" onclick="shopToggle()" tabindex="-1">
+          <svg viewBox="0 0 10 10">
+            <line x1="2" y1="2" x2="8" y2="8" />
+            <line x1="8" y1="2" x2="2" y2="8" />
+          </svg>
+        </div>
+      </div>
+      <div id="shop-tabbar">
+        <button class="shop-tab-btn active" data-tab="kitchen" onclick="shopSwitchTab('kitchen')">
+          Kitchen
+        </button>
+        <button class="shop-tab-btn" data-tab="living" onclick="shopSwitchTab('living')">
+          Living
+        </button>
+      </div>
+      <div id="shop-grid"></div>
+      <div id="shop-panel-footer">
+        <div class="shop-foot-total">
+          <span>Selected</span>
+          <strong id="shop-panel-total">€ 0</strong>
+        </div>
+        <button id="shop-order-btn" onclick="shopOpenOrder()" disabled>View Order</button>
+      </div>
+    </div>
+
+    <!-- SHOP 3D VIEWER MODAL -->
+    <div id="shop3d-modal">
+      <div id="shop3d-card">
+        <button id="shop3d-close" title="Close">
+          <svg viewBox="0 0 14 14">
+            <line x1="2" y1="2" x2="12" y2="12" />
+            <line x1="12" y1="2" x2="2" y2="12" />
+          </svg>
+        </button>
+        <div id="shop3d-stage">
+          <div id="shop3d-loading"><span></span><span></span><span></span></div>
+        </div>
+        <div id="shop3d-footer">
+          <div id="shop3d-title"></div>
+          <div id="shop3d-price"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHOP ORDER SUMMARY MODAL -->
+    <div id="shop-order-modal">
+      <div id="shop-order-card">
+        <div id="shop-order-header">
+          <div>
+            <div id="shop-order-title">Order Summary</div>
+            <div id="shop-order-sub">Review your selection before confirming.</div>
+          </div>
+          <div id="shop-order-close" onclick="shopCloseOrder()" tabindex="-1">
+            <svg viewBox="0 0 10 10">
+              <line x1="2" y1="2" x2="8" y2="8" />
+              <line x1="8" y1="2" x2="2" y2="8" />
+            </svg>
+          </div>
+        </div>
+
+        <div id="shop-order-body">
+          <div id="shop-order-list"></div>
+
+          <div id="shop-order-total-row">
+            <span>Estimated total</span>
+            <strong id="shop-order-total">€ 0</strong>
+          </div>
+        </div>
+
+        <div id="shop-order-actions">
+          <button id="shop-keep-btn" onclick="shopCloseOrder()">Keep editing</button>
+          <button id="shop-confirm-btn" onclick="shopConfirmOrder()">Confirm order</button>
+        </div>
+      </div>
+    </div>
 
     <!-- Slider A/B — Pool scene only: side A = day (video playing), side B = night -->
     <div id="ab-slider">
@@ -433,7 +526,77 @@
       <img id="ai-lightbox-img" alt="" />
     </div>
 
+    <!-- SHOP AI PLACEMENT MODAL — simulate one product in the scene -->
+    <div id="shop-place-modal">
+      <div id="shop-place-card">
+        <div id="shop-place-header">
+          <div>
+            <div id="shop-place-title">Visualize in your scene</div>
+            <div id="shop-place-sub">AI — uses your API key from the AI panel</div>
+          </div>
+          <div id="shop-place-close" onclick="shopPlaceClose()" tabindex="-1">
+            <svg viewBox="0 0 10 10">
+              <line x1="2" y1="2" x2="8" y2="8" />
+              <line x1="8" y1="2" x2="2" y2="8" />
+            </svg>
+          </div>
+        </div>
+        <div id="shop-place-body">
+          <div id="shop-place-product">
+            <img id="shop-place-img" alt="" />
+            <div id="shop-place-product-info">
+              <div id="shop-place-name"></div>
+              <div id="shop-place-variant"></div>
+            </div>
+            <div id="shop-place-price"></div>
+          </div>
+          <div class="shop-ai-row">
+            <button class="ai-capture-btn" id="shop-ai-capture-btn" onclick="shopOrderCapture()">
+              📷 Capture scene
+            </button>
+            <div class="ai-capture-thumb" id="shop-ai-capture-thumb">No capture</div>
+          </div>
+          <textarea
+            id="shop-ai-prompt"
+            placeholder="e.g. replace the existing sofa with this one, keep everything else the same..."
+          ></textarea>
+          <button class="ai-generate-btn" id="shop-ai-generate-btn" onclick="shopAiGenerate()">
+            Place furniture in scene
+          </button>
+          <div class="ai-status" id="shop-ai-status"></div>
+          <div id="shop-ai-result">
+            <img id="shop-ai-result-img" alt="" onclick="shopAiOpenResult()" title="Click to enlarge" />
+          </div>
+          <button class="ai-dl-btn" id="shop-ai-dl-btn" onclick="shopAiDownload()">
+            Download image
+          </button>
+
+          <div id="shop-ai-video-divider"></div>
+          <button class="ai-generate-btn" id="shop-ai-video-btn" onclick="shopAiGenerateVideo()">
+            🎬 Generate video
+          </button>
+          <div class="ai-status" id="shop-ai-video-status">Animates the generated image (or the capture). Takes 1 to 3 minutes.</div>
+          <div id="shop-ai-video-result">
+            <video id="shop-ai-video" controls playsinline loop></video>
+          </div>
+          <button class="ai-dl-btn" id="shop-ai-video-dl-btn" onclick="shopAiDownloadVideo()">
+            Download video
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
     <script src="scenes-fp.js"></script>
     <script src="script-fp.js"></script>
+    <script src="shop.js?v=3"></script>
+    <script type="module" src="shop3d.js?v=3"></script>
   </body>
 </html>
