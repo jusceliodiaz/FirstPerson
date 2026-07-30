@@ -415,6 +415,7 @@ function shopPlaceOpen(id) {
 }
 function shopPlaceClose() {
   document.getElementById("shop-place-modal").classList.remove("open");
+  document.getElementById("shop-ai-video").pause();
 }
 
 async function shopOrderCapture() {

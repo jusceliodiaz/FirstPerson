@@ -840,7 +840,7 @@ html, body {
 
 /* Lightbox */
 #ai-lightbox {
-  position: fixed; inset: 0; z-index: 200;
+  position: fixed; inset: 0; z-index: 300;
   display: none;
   align-items: center; justify-content: center;
   background: rgba(0,0,0,.85);
@@ -1559,9 +1559,22 @@ html, body {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
   display: none;
+  position: relative;
 }
 #shop-ai-result.visible { display: block; }
 #shop-ai-result img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: none; }
+#shop-ai-img-zoom-hint {
+  position: absolute;
+  bottom: 7px; left: 7px;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  cursor: none;
+}
+@media (hover: none) { #shop-ai-img-zoom-hint { cursor: pointer; } }
 
 #shop-order-actions {
   display: flex;
