@@ -374,9 +374,21 @@ function shopConfirmOrder() {
 /* ── AI: place a product in the current scene (per-item modal) ── */
 function shopAiStatus(msg) { document.getElementById("shop-ai-status").textContent = msg; }
 
+/* Per-category copy for the "Visualize in your scene" modal — furniture
+   gets "place" language, wood/floor get "apply material" language. */
+const SHOP_AI_ACTION_LABELS = {
+  wood: { button: "Apply cladding to scene", status: "Applying the cladding to your scene..." },
+  floor: { button: "Replace floor in scene", status: "Replacing the floor in your scene..." }
+};
+const SHOP_AI_ACTION_DEFAULT = { button: "Place furniture in scene", status: "Placing furniture in your scene..." };
+function shopAiActionLabels(cat) {
+  return SHOP_AI_ACTION_LABELS[cat] || SHOP_AI_ACTION_DEFAULT;
+}
+
 function shopPlaceOpen(id) {
   const p = shopProduct(id);
   if (!p) return;
+  document.getElementById("shop-ai-generate-btn").textContent = shopAiActionLabels(p.cat).button;
   if (shopState.placeId !== id) {
     /* New product — clear the previous results */
     shopState.resultB64 = null;
@@ -460,7 +472,7 @@ async function shopAiGenerate() {
 
   const btn = document.getElementById("shop-ai-generate-btn");
   btn.disabled = true;
-  shopAiStatus("Placing furniture in your scene...");
+  shopAiStatus(shopAiActionLabels(p.cat).status);
 
   try {
     const prodImg = await shopProductImageB64(p);
@@ -561,7 +573,7 @@ async function shopAiGenerateVideo() {
      Fallback: the raw scene capture. */
   /* The video ALWAYS animates the generated image with the product applied */
   const frameB64 = shopState.resultB64, frameMime = "image/png";
-  if (!frameB64) return shopAiVideoStatus('Generate the image with "Place furniture in scene" first — the video animates that exact image.');
+  if (!frameB64) return shopAiVideoStatus(`Generate the image with "${shopAiActionLabels(p.cat).button}" first — the video animates that exact image.`);
 
   const userPrompt = document.getElementById("shop-ai-prompt").value.trim();
   const prompt =
