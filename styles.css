@@ -1137,6 +1137,12 @@ html, body {
   object-fit: contain;
   display: block;
 }
+/* Wood/floor cards show a material texture photo — fill the whole
+   frame edge-to-edge instead of letterboxing it like a product shot. */
+.shop-card[data-cat="wood"] .shop-card-imgwrap,
+.shop-card[data-cat="floor"] .shop-card-imgwrap { background: none; }
+.shop-card[data-cat="wood"] .shop-card-imgwrap img,
+.shop-card[data-cat="floor"] .shop-card-imgwrap img { object-fit: cover; }
 .shop-3d-btn {
   position: absolute;
   bottom: 8px; right: 8px;

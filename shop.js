@@ -90,7 +90,7 @@ const SHOP_PRODUCTS = [
     price: 39.90,
     unit: "panel",
     store: "Leroy Merlin",
-    img: "https://media.adeo.com/media/4702127/media.jpg?width=640",
+    img: "https://images.unsplash.com/photo-1637822412454-085098b4c8c0?fm=jpg&q=80&w=640&auto=format&fit=crop",
     url: "https://www.leroymerlin.it/prodotti/pannello-decorativo-fonoassorbente-slash-rovere-chiaro-l-260-x-l-39-3-cm-sp-10-mm-1-02-mq-95467041.html",
     model: "assets/models/slash-rovere.glb",
     desc: "Sound-absorbing decorative slatted wall panel with a light oak finish on a black felt backing."
@@ -104,7 +104,7 @@ const SHOP_PRODUCTS = [
     price: 29.90,
     unit: "panel",
     store: "Leroy Merlin",
-    img: "https://media.adeo.com/media/5370224/media.jpg?width=640",
+    img: "https://images.unsplash.com/photo-1736506159776-22ca388780fa?fm=jpg&q=80&w=640&auto=format&fit=crop",
     url: "https://www.leroymerlin.it/prodotti/pannello-decorativo-fonoassorbente-design-millerighe-noce-l-260-x-l-29-cm-sp-10-mm-0-75-mq-97758233.html",
     model: "assets/models/millerighe-noce.glb",
     desc: "Fine-ribbed sound-absorbing decorative wall panel with a warm walnut finish."
@@ -118,7 +118,7 @@ const SHOP_PRODUCTS = [
     price: 49.99,
     unit: "set of 2",
     store: "Leroy Merlin",
-    img: "https://media.adeo.com/mkp/0d4b03b11d889c069a3f910c5926a87c/media.jpg?width=640",
+    img: "https://images.unsplash.com/photo-1736506159893-22cca29b8018?fm=jpg&q=80&w=640&auto=format&fit=crop",
     url: "https://www.leroymerlin.it/prodotti/2-pannelli-decorativi-acustici-pannelli-in-fibra-a-media-densita-mdf-120-cm-60-cm-spessore-21-mm-color-rovere-scuro-75694396.html",
     model: "assets/models/mdf-rovere-scuro.glb",
     desc: "Set of two MDF acoustic slat panels in dark oak — bold vertical rhythm for feature walls."
@@ -134,7 +134,7 @@ const SHOP_PRODUCTS = [
     price: 52.99,
     unit: "m²",
     store: "Leroy Merlin",
-    img: "https://media.adeo.com/media/3979692/media.jpg?width=640",
+    img: "https://images.unsplash.com/photo-1611600700192-d87eaeed4f81?fm=jpg&q=80&w=640&auto=format&fit=crop",
     url: "https://www.leroymerlin.it/prodotti/parquet-multistrato-xl-artens-in-rovere-chiaro-spazzolato-e-verniciato-natura-sp-14-2-5-mm-1-37-m2-90544741.html",
     model: "assets/models/artens-rovere.glb",
     desc: "Engineered oak parquet, light brushed and varnished planks in XL format, rustic natural grade."
@@ -148,7 +148,7 @@ const SHOP_PRODUCTS = [
     price: 79.90,
     unit: "m²",
     store: "Leroy Merlin",
-    img: "https://media.adeo.com/media/92285/media.jpg?width=640",
+    img: "https://images.unsplash.com/photo-1611072337226-1140ab367200?fm=jpg&q=80&w=640&auto=format&fit=crop",
     url: "https://www.leroymerlin.it/prodotti/parquet-prefinito-s-in-rovere-spazzolato-e-verniciato-elegance-sp-10-3-mm-1-8-m2-35449344.html",
     model: "assets/models/rovere-elegance.glb",
     desc: "Pre-finished brushed and varnished Irish oak parquet in a light vanilla tone, elegance grade."
@@ -162,7 +162,7 @@ const SHOP_PRODUCTS = [
     price: 72.98,
     unit: "m²",
     store: "Leroy Merlin",
-    img: "https://media.adeo.com/media/4528124/media.jpg?width=640",
+    img: "https://images.unsplash.com/photo-1548268364-3acee266b695?fm=jpg&q=80&w=640&auto=format&fit=crop",
     url: "https://www.leroymerlin.it/prodotti/parquet-multistrato-chevron-francese-m-barlinek-in-miele-spazzolato-natura-0-61-m2-92303383.html",
     model: "assets/models/barlinek-chevron.glb",
     desc: "French chevron engineered oak parquet in a warm honey tone with a brushed natural finish."
@@ -224,7 +224,7 @@ function shopRenderGrid() {
   grid.innerHTML = items.map(p => {
     const inCart = shopState.cart.has(p.id);
     return `
-    <div class="shop-card${inCart ? " selected" : ""}" data-id="${p.id}" onclick="shopToggleItem('${p.id}')">
+    <div class="shop-card${inCart ? " selected" : ""}" data-id="${p.id}" data-cat="${p.cat}" onclick="shopToggleItem('${p.id}')">
       <div class="shop-card-imgwrap">
         <img src="${p.img}" alt="${p.name} — ${p.variant}" loading="lazy" />
         <button class="shop-ai-btn" title="Place in your scene with AI" onclick="event.stopPropagation();shopPlaceOpen('${p.id}')">
