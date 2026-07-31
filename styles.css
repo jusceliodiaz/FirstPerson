@@ -3,7 +3,7 @@
 *, *:focus, *:focus-visible { outline: none !important; -webkit-tap-highlight-color: transparent !important; }
 
 :root {
-  --warm:               #c8a96e;
+  --warm:               #999b88;
   --ease:               cubic-bezier(0.4, 0, 0.2, 1);
   --trans:              220ms cubic-bezier(0.4, 0, 0.2, 1);
   --glass:              rgba(195, 195, 195, 0.32);
@@ -394,9 +394,9 @@ html, body {
   max-width: 180px;
   padding: 0 1rem;
   gap: .5rem;
-  background: rgba(20,20,20,.85);
+  background: var(--warm);
   border-color: transparent;
-  color: #fff;
+  color: #14130f;
 }
 @media (hover: none) {
   #track {
@@ -642,10 +642,10 @@ html, body {
   z-index: 70;
   width: 720px;
   max-width: 94vw;
-  background: rgba(120, 130, 140, 0.55);
+  background: rgba(250, 248, 244, 0.94);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(20, 19, 15, 0.12);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
@@ -653,6 +653,7 @@ html, body {
   pointer-events: none;
   transform: translate(-50%, -50%) scale(0.97);
   transition: opacity 0.3s ease, transform 0.3s var(--ease);
+  color: #26241d;
 }
 #ai-panel.open {
   opacity: 1;
@@ -667,7 +668,7 @@ html, body {
 
 #ai-panel-header {
   padding: 14px 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(20, 19, 15, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -676,7 +677,7 @@ html, body {
 }
 #ai-panel-header:active { cursor: grabbing; }
 #ai-panel-title {
-  color: #fff;
+  color: #14130f;
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -685,16 +686,16 @@ html, body {
 #ai-panel-close {
   width: 24px; height: 24px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(20, 19, 15, 0.06);
+  border: 1px solid rgba(20, 19, 15, 0.14);
   display: flex; align-items: center; justify-content: center;
   cursor: none;
   transition: background 0.2s;
 }
-#ai-panel-close:hover { background: rgba(255, 255, 255, 0.22); }
+#ai-panel-close:hover { background: rgba(20, 19, 15, 0.14); }
 #ai-panel-close svg {
   width: 10px; height: 10px;
-  stroke: #fff;
+  stroke: #14130f;
   fill: none; stroke-width: 2; stroke-linecap: round;
 }
 
@@ -702,10 +703,10 @@ html, body {
 .ai-tab-btn {
   flex: 1;
   padding: 8px 6px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(20, 19, 15, 0.12);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.6);
+  background: rgba(20, 19, 15, 0.035);
+  color: rgba(20, 19, 15, 0.55);
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
   font-weight: 600;
@@ -713,11 +714,11 @@ html, body {
   transition: background 0.2s, color 0.2s;
   white-space: nowrap;
 }
-.ai-tab-btn:hover { background: rgba(255, 255, 255, 0.14); }
+.ai-tab-btn:hover { background: rgba(20, 19, 15, 0.08); }
 .ai-tab-btn.active {
-  background: #fff;
-  border-color: #fff;
-  color: #111;
+  background: var(--warm);
+  border-color: var(--warm);
+  color: #14130f;
 }
 .ai-tab-panel { display: none; }
 .ai-tab-panel.active { display: contents; }
@@ -738,17 +739,17 @@ html, body {
 .ai-field { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
 .ai-lbl {
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(20, 19, 15, 0.55);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 .ai-field input, .ai-field select, .ai-field textarea {
   width: 100%; min-width: 0; box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(20, 19, 15, 0.05);
+  border: 1px solid rgba(20, 19, 15, 0.18);
   border-radius: 10px;
   padding: 9px 11px;
-  color: #fff;
+  color: #14130f;
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   outline: none;
@@ -757,19 +758,19 @@ html, body {
   text-overflow: ellipsis;
 }
 .ai-field input:focus, .ai-field select:focus, .ai-field textarea:focus {
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: rgba(20, 19, 15, 0.35);
 }
-.ai-field input::placeholder, .ai-field textarea::placeholder { color: rgba(255, 255, 255, 0.35); }
+.ai-field input::placeholder, .ai-field textarea::placeholder { color: rgba(20, 19, 15, 0.38); }
 .ai-field textarea { resize: none; min-height: 80px; line-height: 1.5; }
-.ai-field select option { background: #4b525a; color: #fff; }
+.ai-field select option { background: #fff; color: #14130f; }
 
 .ai-generate-btn {
   width: 100%;
   padding: 12px;
   border: none;
   border-radius: 12px;
-  background: #111;
-  color: #fff;
+  background: var(--warm);
+  color: #14130f;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 700;
@@ -778,12 +779,12 @@ html, body {
   cursor: none;
   transition: background 0.2s, transform 0.2s;
 }
-.ai-generate-btn:hover { background: #333; transform: scale(1.02); }
+.ai-generate-btn:hover { background: #b3b4a6; transform: scale(1.02); }
 .ai-generate-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
 .ai-status {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(20, 19, 15, 0.6);
   text-align: center;
   min-height: 16px;
   max-height: 56px;
@@ -797,9 +798,9 @@ html, body {
   aspect-ratio: 16/9;
   border-radius: 12px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(20, 19, 15, 0.05);
   display: none;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(20, 19, 15, 0.12);
   position: relative;
 }
 #ai-img-wrap.visible, #ai-vid-wrap.visible { display: block; }
@@ -808,12 +809,12 @@ html, body {
   width: 100%;
   aspect-ratio: 16/9;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(20, 19, 15, 0.05);
+  border: 1px solid rgba(20, 19, 15, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(20, 19, 15, 0.25);
 }
 .ai-result-placeholder svg { width: 42px; height: 42px; }
 /* Hides itself once the real result (previous sibling) becomes visible —
@@ -894,10 +895,10 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(20, 19, 15, 0.05);
+  border: 1px solid rgba(20, 19, 15, 0.18);
   border-radius: 8px;
-  color: #fff;
+  color: #14130f;
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
   font-weight: 600;
@@ -906,11 +907,11 @@ html, body {
   transition: background 0.2s;
   white-space: nowrap;
 }
-.ai-capture-btn:hover { background: rgba(255, 255, 255, 0.16); }
+.ai-capture-btn:hover { background: rgba(20, 19, 15, 0.1); }
 .ai-capture-btn.active {
-  background: #fff;
-  border-color: #fff;
-  color: #111;
+  background: #14130f;
+  border-color: #14130f;
+  color: #fff;
 }
 .ai-capture-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .ai-capture-thumb {
@@ -918,12 +919,12 @@ html, body {
   box-sizing: border-box;
   border-radius: 8px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(20, 19, 15, 0.04);
+  border: 1px solid rgba(20, 19, 15, 0.12);
   display: flex; align-items: center; justify-content: center;
   font-size: 9px;
   letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(20, 19, 15, 0.5);
   text-transform: uppercase;
 }
 .ai-capture-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -931,10 +932,10 @@ html, body {
 .ai-dl-btn {
   width: 100%;
   padding: 11px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(20, 19, 15, 0.2);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: rgba(20, 19, 15, 0.05);
+  color: #14130f;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
@@ -945,7 +946,7 @@ html, body {
   text-transform: uppercase;
 }
 .ai-dl-btn.visible { display: block; }
-.ai-dl-btn:hover { background: rgba(255, 255, 255, 0.16); }
+.ai-dl-btn:hover { background: rgba(20, 19, 15, 0.12); }
 
 @media (max-width: 600px) {
   #ai-trigger-btn span { display: none; }
@@ -1037,14 +1038,14 @@ html, body {
   max-width: 100vw;
   display: flex;
   flex-direction: column;
-  background: rgba(20, 19, 15, 0.82);
+  background: rgba(250, 248, 244, 0.92);
   backdrop-filter: blur(24px) saturate(1.2);
   -webkit-backdrop-filter: blur(24px) saturate(1.2);
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.4);
+  border-left: 1px solid rgba(20, 19, 15, 0.1);
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.18);
   transform: translateX(105%);
   transition: transform 0.35s var(--ease);
-  color: #f3efe6;
+  color: #26241d;
   font-family: 'DM Sans', sans-serif;
 }
 #shop-panel.open { transform: translateX(0); }
@@ -1054,14 +1055,14 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(20, 19, 15, 0.1);
 }
 #shop-panel-title {
   font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-weight: 700;
-  color: #fff;
+  color: #14130f;
 }
 #shop-panel-title span {
   color: var(--warm);
@@ -1070,27 +1071,27 @@ html, body {
 #shop-panel-close, #shop-order-close {
   width: 26px; height: 26px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(20, 19, 15, 0.06);
+  border: 1px solid rgba(20, 19, 15, 0.14);
   display: flex; align-items: center; justify-content: center;
   cursor: none;
   transition: background 0.2s;
   flex-shrink: 0;
 }
-#shop-panel-close:hover, #shop-order-close:hover { background: rgba(255, 255, 255, 0.2); }
+#shop-panel-close:hover, #shop-order-close:hover { background: rgba(20, 19, 15, 0.14); }
 #shop-panel-close svg, #shop-order-close svg {
   width: 10px; height: 10px;
-  stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round;
+  stroke: #14130f; fill: none; stroke-width: 2; stroke-linecap: round;
 }
 
 #shop-tabbar { display: flex; gap: 6px; padding: 12px 14px 0; }
 .shop-tab-btn {
   flex: 1;
   padding: 9px 6px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(20, 19, 15, 0.12);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.6);
+  background: rgba(20, 19, 15, 0.035);
+  color: rgba(20, 19, 15, 0.55);
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
   font-weight: 700;
@@ -1099,7 +1100,7 @@ html, body {
   cursor: none;
   transition: background 0.2s, color 0.2s;
 }
-.shop-tab-btn:hover { background: rgba(255, 255, 255, 0.12); }
+.shop-tab-btn:hover { background: rgba(20, 19, 15, 0.08); }
 .shop-tab-btn.active {
   background: var(--warm);
   border-color: var(--warm);
@@ -1115,15 +1116,20 @@ html, body {
   flex-direction: column;
   gap: 12px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,.2) transparent;
+  scrollbar-color: rgba(20,19,15,.25) transparent;
 }
 
 .shop-card {
   border-radius: 16px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #fff;
+  border: 1px solid rgba(20, 19, 15, 0.1);
   transition: border-color 0.2s, background 0.2s;
+  /* #shop-grid is a column flexbox with limited height; without this,
+     overflow:hidden strips the card's content-based minimum size, so
+     flexbox shrinks cards to fit instead of letting #shop-grid scroll —
+     clipping the footer (price/IKEA/ADD) inside the shrunk card. */
+  flex-shrink: 0;
 }
 .shop-card.selected { border-color: var(--warm); }
 .shop-card-imgwrap {
@@ -1153,7 +1159,6 @@ html, body {
   border-radius: 999px;
   border: none;
   background: rgba(20, 19, 15, 0.85);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
   color: #fff;
   font-family: 'DM Sans', sans-serif;
   font-size: 10px;
@@ -1180,18 +1185,18 @@ html, body {
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #fff;
+  color: #14130f;
 }
 .shop-card-variant {
   font-size: 11.5px;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(20, 19, 15, 0.62);
   margin-top: 2px;
   line-height: 1.35;
 }
 .shop-card-size {
   font-size: 10px;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(20, 19, 15, 0.42);
   margin-top: 3px;
 }
 .shop-card-footer {
@@ -1215,9 +1220,9 @@ html, body {
   gap: 3px;
   padding: 7px 10px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(20, 19, 15, 0.22);
+  background: rgba(20, 19, 15, 0.04);
+  color: rgba(20, 19, 15, 0.75);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1225,14 +1230,14 @@ html, body {
   cursor: none;
   transition: background 0.2s, color 0.2s;
 }
-.shop-buy-link:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.shop-buy-link:hover { background: rgba(20, 19, 15, 0.1); color: #14130f; }
 .shop-buy-link svg { width: 11px; height: 11px; }
 .shop-add-btn {
   padding: 7px 14px;
   border-radius: 8px;
   border: none;
-  background: #fff;
-  color: #14130f;
+  background: #14130f;
+  color: #fff;
   font-family: 'DM Sans', sans-serif;
   font-size: 10px;
   font-weight: 700;
@@ -1243,11 +1248,11 @@ html, body {
   white-space: nowrap;
 }
 .shop-add-btn:hover { transform: scale(1.05); }
-.shop-add-btn.added { background: var(--warm); }
+.shop-add-btn.added { background: var(--warm); color: #14130f; }
 
 #shop-panel-footer {
   padding: 14px 16px max(14px, env(safe-area-inset-bottom, 14px));
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(20, 19, 15, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1258,7 +1263,7 @@ html, body {
   font-size: 9px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(20, 19, 15, 0.5);
   font-weight: 600;
 }
 .shop-foot-total strong {
@@ -1298,9 +1303,9 @@ html, body {
   width: min(988px, 96vw);
   border-radius: 20px;
   overflow: hidden;
-  background: #14130f;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+  background: #faf8f4;
+  border: 1px solid rgba(20, 19, 15, 0.12);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
   font-family: 'DM Sans', sans-serif;
 }
 #shop3d-close {
@@ -1345,13 +1350,13 @@ html, body {
   justify-content: space-between;
   gap: 14px;
   padding: 13px 18px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(20, 19, 15, 0.1);
 }
 #shop3d-title {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(20, 19, 15, 0.8);
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1382,10 +1387,10 @@ html, body {
   flex-direction: column;
   border-radius: 20px;
   overflow: hidden;
-  background: rgba(20, 19, 15, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
-  color: #f3efe6;
+  background: rgba(250, 248, 244, 0.97);
+  border: 1px solid rgba(20, 19, 15, 0.12);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+  color: #26241d;
   font-family: 'DM Sans', sans-serif;
 }
 #shop-order-header {
@@ -1393,7 +1398,7 @@ html, body {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(20, 19, 15, 0.1);
 }
 #shop-order-title {
   font-size: 13px;
@@ -1404,7 +1409,7 @@ html, body {
 }
 #shop-order-sub {
   font-size: 11.5px;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(20, 19, 15, 0.6);
   margin-top: 3px;
 }
 #shop-order-body {
@@ -1412,7 +1417,7 @@ html, body {
   overflow-y: auto;
   padding: 14px 20px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,.2) transparent;
+  scrollbar-color: rgba(20,19,15,.25) transparent;
 }
 .shop-order-cat {
   display: flex;
@@ -1422,7 +1427,7 @@ html, body {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(20, 19, 15, 0.5);
   padding: 12px 0 6px;
 }
 .shop-order-cat:first-child { padding-top: 0; }
@@ -1431,7 +1436,7 @@ html, body {
   align-items: center;
   gap: 12px;
   padding: 8px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-top: 1px solid rgba(20, 19, 15, 0.08);
 }
 .shop-order-line img {
   width: 44px; height: 44px;
@@ -1441,10 +1446,10 @@ html, body {
   flex-shrink: 0;
 }
 .shop-order-line-info { flex: 1; min-width: 0; }
-.shop-order-line-name { font-size: 13px; font-weight: 700; color: #fff; }
+.shop-order-line-name { font-size: 13px; font-weight: 700; color: #14130f; }
 .shop-order-line-variant {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(20, 19, 15, 0.6);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1458,20 +1463,21 @@ html, body {
 .shop-order-remove {
   width: 22px; height: 22px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(20, 19, 15, 0.06);
+  border: 1px solid rgba(20, 19, 15, 0.14);
   display: flex; align-items: center; justify-content: center;
   cursor: none;
   flex-shrink: 0;
   transition: background 0.2s;
 }
 .shop-order-remove:hover { background: rgba(224, 83, 83, 0.6); }
-.shop-order-remove svg { width: 8px; height: 8px; stroke: #fff; stroke-width: 1.6; fill: none; stroke-linecap: round; }
+.shop-order-remove svg { width: 8px; height: 8px; stroke: #14130f; stroke-width: 1.6; fill: none; stroke-linecap: round; }
+.shop-order-remove:hover svg { stroke: #fff; }
 .shop-order-empty {
   padding: 24px 0;
   text-align: center;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(20, 19, 15, 0.45);
 }
 #shop-order-total-row {
   display: flex;
@@ -1479,14 +1485,14 @@ html, body {
   justify-content: space-between;
   padding: 14px 0;
   margin-top: 4px;
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-top: 1px solid rgba(20, 19, 15, 0.14);
 }
 #shop-order-total-row span {
   font-size: 10px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(20, 19, 15, 0.6);
 }
 #shop-order-total-row strong {
   font-size: 20px;
@@ -1499,8 +1505,8 @@ html, body {
   margin-top: 6px;
   padding: 14px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(20, 19, 15, 0.03);
+  border: 1px solid rgba(20, 19, 15, 0.1);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -1510,54 +1516,54 @@ html, body {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 700;
-  color: #fff;
+  color: #14130f;
 }
 .shop-ai-heading span {
   font-size: 9px;
   letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(20, 19, 15, 0.4);
   font-weight: 500;
   text-transform: none;
 }
 .shop-ai-row { display: flex; gap: 10px; }
 #shop-ai-product {
   width: 100%; min-width: 0;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(20, 19, 15, 0.05);
+  border: 1px solid rgba(20, 19, 15, 0.18);
   border-radius: 10px;
   padding: 9px 11px;
-  color: #fff;
+  color: #14130f;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   outline: none;
 }
-#shop-ai-product option { background: #2b2a24; color: #fff; }
+#shop-ai-product option { background: #fff; color: #14130f; }
 #shop-ai-prompt {
   width: 100%;
   box-sizing: border-box;
   resize: none;
   min-height: 60px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(20, 19, 15, 0.05);
+  border: 1px solid rgba(20, 19, 15, 0.18);
   border-radius: 10px;
   padding: 9px 11px;
-  color: #fff;
+  color: #14130f;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   line-height: 1.5;
   outline: none;
   user-select: text; -webkit-user-select: text;
 }
-#shop-ai-prompt::placeholder { color: rgba(255, 255, 255, 0.35); }
+#shop-ai-prompt::placeholder { color: rgba(20, 19, 15, 0.38); }
 #shop-ai-section .ai-generate-btn { background: var(--warm); color: #14130f; }
-#shop-ai-section .ai-generate-btn:hover { background: #d8b87e; }
+#shop-ai-section .ai-generate-btn:hover { background: #b3b4a6; }
 #shop-ai-result {
   width: 100%;
   aspect-ratio: 16 / 9;
   border-radius: 12px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(20, 19, 15, 0.05);
+  border: 1px solid rgba(20, 19, 15, 0.12);
   display: none;
   position: relative;
 }
@@ -1580,15 +1586,15 @@ html, body {
   display: flex;
   gap: 10px;
   padding: 14px 20px max(14px, env(safe-area-inset-bottom, 14px));
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(20, 19, 15, 0.1);
 }
 #shop-keep-btn {
   flex: 1;
   padding: 12px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(20, 19, 15, 0.2);
   background: transparent;
-  color: #fff;
+  color: #14130f;
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
   font-weight: 700;
@@ -1597,7 +1603,7 @@ html, body {
   cursor: none;
   transition: background 0.2s;
 }
-#shop-keep-btn:hover { background: rgba(255, 255, 255, 0.1); }
+#shop-keep-btn:hover { background: rgba(20, 19, 15, 0.08); }
 #shop-confirm-btn {
   flex: 1.4;
   padding: 12px;
@@ -1655,8 +1661,9 @@ html, body {
 
   /* The overlay AI/3D icons on the thumbnail are too small to see/tap
      at 96px — replace them with full-size buttons stacked above the
-     IKEA/ADD row, right-aligned to match. */
-  .shop-ai-btn, .shop-3d-btn { display: none; }
+     IKEA/ADD row, right-aligned to match. (Actual hide rule is further
+     down, after .shop-ai-btn/.shop-3d-btn's own display:flex — same
+     specificity, so it has to win on source order or it gets overridden.) */
   .shop-card-check {
     top: 4px; right: 4px;
     width: 16px; height: 16px;
@@ -1690,9 +1697,9 @@ html, body {
     color: #14130f;
   }
   .shop-quick-3d-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: rgba(255, 255, 255, 0.9);
+    background: rgba(20, 19, 15, 0.05);
+    border: 1px solid rgba(20, 19, 15, 0.25);
+    color: rgba(20, 19, 15, 0.8);
   }
 
   /* Higher-contrast, easier-to-tap buy-link/add buttons. */
@@ -1713,7 +1720,6 @@ html, body {
   border-radius: 999px;
   border: none;
   background: var(--warm);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
   color: #14130f;
   font-family: 'DM Sans', sans-serif;
   font-size: 10px;
@@ -1722,9 +1728,14 @@ html, body {
   cursor: none;
   transition: background 0.2s, transform 0.2s;
 }
-.shop-ai-btn:hover { background: #d8b87e; transform: scale(1.05); }
+.shop-ai-btn:hover { background: #b3b4a6; transform: scale(1.05); }
 .shop-ai-btn svg { width: 14px; height: 14px; }
 @media (hover: none) { .shop-ai-btn, .shop-3d-btn { cursor: pointer; } }
+/* Must come after .shop-ai-btn/.shop-3d-btn's own display:flex above —
+   same specificity, so source order decides and this has to be last. */
+@media (max-width: 480px) {
+  .shop-ai-btn, .shop-3d-btn { display: none; }
+}
 
 #shop-place-modal {
   position: fixed; inset: 0; z-index: 206;
@@ -1743,10 +1754,10 @@ html, body {
   flex-direction: column;
   border-radius: 20px;
   overflow: hidden;
-  background: rgba(20, 19, 15, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
-  color: #f3efe6;
+  background: rgba(250, 248, 244, 0.97);
+  border: 1px solid rgba(20, 19, 15, 0.12);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+  color: #26241d;
   font-family: 'DM Sans', sans-serif;
 }
 #shop-place-header {
@@ -1754,7 +1765,7 @@ html, body {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(20, 19, 15, 0.1);
 }
 #shop-place-title {
   font-size: 13px;
@@ -1765,21 +1776,21 @@ html, body {
 }
 #shop-place-sub {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(20, 19, 15, 0.55);
   margin-top: 3px;
 }
 #shop-place-close {
   width: 26px; height: 26px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(20, 19, 15, 0.06);
+  border: 1px solid rgba(20, 19, 15, 0.14);
   display: flex; align-items: center; justify-content: center;
   cursor: none;
   transition: background 0.2s;
   flex-shrink: 0;
 }
-#shop-place-close:hover { background: rgba(255, 255, 255, 0.2); }
-#shop-place-close svg { width: 10px; height: 10px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; }
+#shop-place-close:hover { background: rgba(20, 19, 15, 0.14); }
+#shop-place-close svg { width: 10px; height: 10px; stroke: #14130f; fill: none; stroke-width: 2; stroke-linecap: round; }
 #shop-place-body {
   flex: 1;
   overflow-y: auto;
@@ -1788,7 +1799,7 @@ html, body {
   flex-direction: column;
   gap: 10px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,.2) transparent;
+  scrollbar-color: rgba(20,19,15,.25) transparent;
 }
 #shop-place-product {
   display: flex;
@@ -1796,8 +1807,8 @@ html, body {
   gap: 12px;
   padding: 10px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(20, 19, 15, 0.03);
+  border: 1px solid rgba(20, 19, 15, 0.1);
 }
 #shop-place-product img {
   width: 48px; height: 48px;
@@ -1807,10 +1818,10 @@ html, body {
   flex-shrink: 0;
 }
 #shop-place-product-info { flex: 1; min-width: 0; }
-#shop-place-name { font-size: 13px; font-weight: 700; color: #fff; }
+#shop-place-name { font-size: 13px; font-weight: 700; color: #14130f; }
 #shop-place-variant {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(20, 19, 15, 0.55);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1821,6 +1832,25 @@ html, body {
   color: var(--warm);
   white-space: nowrap;
 }
+/* .ai-capture-btn/.ai-capture-thumb are shared with the dark AI dock —
+   override here so they read on this modal's light background. */
+#shop-place-body .ai-capture-btn {
+  background: rgba(20, 19, 15, 0.05);
+  border-color: rgba(20, 19, 15, 0.18);
+  color: #14130f;
+}
+#shop-place-body .ai-capture-btn:hover { background: rgba(20, 19, 15, 0.1); }
+#shop-place-body .ai-capture-btn.active {
+  background: #14130f;
+  border-color: #14130f;
+  color: #fff;
+}
+#shop-place-body .ai-capture-thumb {
+  background: rgba(20, 19, 15, 0.04);
+  border-color: rgba(20, 19, 15, 0.12);
+  color: rgba(20, 19, 15, 0.5);
+}
+#shop-place-body .ai-status { color: rgba(20, 19, 15, 0.6); }
 @media (hover: none) {
   #shop-place-card button, #shop-place-close { cursor: pointer; }
 }
@@ -1828,22 +1858,22 @@ html, body {
 /* ── Per-item AI video generation ── */
 #shop-ai-video-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(20, 19, 15, 0.1);
   margin: 4px 0;
 }
 #shop-ai-video-btn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(20, 19, 15, 0.05);
+  color: #14130f;
+  border: 1px solid rgba(20, 19, 15, 0.2);
 }
-#shop-ai-video-btn:hover { background: rgba(255, 255, 255, 0.18); }
+#shop-ai-video-btn:hover { background: rgba(20, 19, 15, 0.12); }
 #shop-ai-video-result {
   width: 100%;
   aspect-ratio: 16 / 9;
   border-radius: 12px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(20, 19, 15, 0.05);
+  border: 1px solid rgba(20, 19, 15, 0.12);
   display: none;
 }
 #shop-ai-video-result.visible { display: block; }
@@ -1854,7 +1884,7 @@ html, body {
 .shop-price-unit {
   font-size: 10px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(20, 19, 15, 0.5);
 }
 #shop-tabbar { flex-wrap: nowrap; }
 .shop-tab-btn { padding: 9px 4px; font-size: 10px; letter-spacing: 0.07em; }
