@@ -120,6 +120,23 @@ document.addEventListener("keydown", e => {
   window.open("https://frezza.vercel.app/", "_blank", "noopener");
 });
 
+/* Mobile equivalent — no keyboard, so 5 quick taps on the logo does it. */
+(() => {
+  const logo = document.getElementById("site-logo");
+  if (!logo) return;
+  let taps = 0, resetTimer = null;
+  logo.style.pointerEvents = "auto";
+  logo.addEventListener("click", () => {
+    taps++;
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => { taps = 0; }, 1200);
+    if (taps >= 5) {
+      taps = 0;
+      window.open("https://frezza.vercel.app/", "_blank", "noopener");
+    }
+  });
+})();
+
 /* ══════════════════════════════════════════════════════
    Preloader — gates the experience until poster + videos + the
    aerial⇄pool frame sequence are fully cached, so the first
