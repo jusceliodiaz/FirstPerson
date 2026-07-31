@@ -101,6 +101,17 @@
     <link rel="stylesheet" href="styles.css?v=5" />
   </head>
   <body>
+    <div id="preloader">
+      <img id="preloader-logo" src="images/logo.svg" alt="Logo" />
+      <div id="preloader-status">
+        <span>Loading…</span>
+        <strong id="preloader-pct">0%</strong>
+      </div>
+      <button id="preloader-start" type="button">Enter</button>
+    </div>
+
+    <img id="site-logo" src="images/logo.svg" alt="Logo" />
+
     <div id="cursor"></div>
     <div id="ring"></div>
     <div id="noise"></div>
@@ -285,6 +296,42 @@
           <path d="M19 10v1a7 7 0 0 1-14 0v-1" />
           <line x1="12" y1="18" x2="12" y2="22" />
         </svg>
+      </div>
+      <div id="gallery-btn" onclick="galleryToggle()" tabindex="-1" title="Gallery">
+        <svg
+          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none" />
+          <path d="M21 15l-5-5L5 21" />
+        </svg>
+        <span id="gallery-btn-badge"></span>
+      </div>
+    </div>
+
+    <!-- GALLERY — every AI-generated image/video lands here for review/download -->
+    <div id="gallery-modal">
+      <div id="gallery-card">
+        <div id="gallery-header">
+          <div>
+            <div id="gallery-title">Gallery</div>
+            <div id="gallery-sub">Every image and video you generate lands here.</div>
+          </div>
+          <div id="gallery-close" onclick="galleryToggle()" tabindex="-1">
+            <svg viewBox="0 0 10 10">
+              <line x1="2" y1="2" x2="8" y2="8" />
+              <line x1="8" y1="2" x2="2" y2="8" />
+            </svg>
+          </div>
+        </div>
+        <div id="gallery-grid"></div>
       </div>
     </div>
 
@@ -530,6 +577,7 @@
         </svg>
       </button>
       <img id="ai-lightbox-img" alt="" />
+      <video id="ai-lightbox-video" controls playsinline loop onclick="event.stopPropagation()"></video>
     </div>
 
     <!-- SHOP AI PLACEMENT MODAL — simulate one product in the scene -->
