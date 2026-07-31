@@ -107,3 +107,15 @@ function initAbSlider() {
   el.addEventListener("pointerup", endDrag);
   el.addEventListener("pointercancel", endDrag);
 }
+
+/* ══════════════════════════════════════════════════════
+   Secret shortcut — press "F" anywhere on the site (outside
+   text fields, no modifier keys) to open frezza.vercel.app.
+   ══════════════════════════════════════════════════════ */
+document.addEventListener("keydown", e => {
+  if (e.key.toLowerCase() !== "f") return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  const tag = document.activeElement?.tagName;
+  if (tag === "INPUT" || tag === "TEXTAREA" || document.activeElement?.isContentEditable) return;
+  window.open("https://frezza.vercel.app/", "_blank", "noopener");
+});
