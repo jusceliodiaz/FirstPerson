@@ -156,7 +156,6 @@ function initPreloader() {
   const el = document.getElementById("preloader");
   if (!el) { startScene(sceneFromHash()); return; }
   const pctEl = document.getElementById("preloader-pct");
-  const startBtn = document.getElementById("preloader-start");
 
   const posterSrc = MOBILE
     ? "images/seq_arch_m/aereo_to_piscina_00.jpg"
@@ -189,16 +188,11 @@ function initPreloader() {
 
   Promise.allSettled([posterDone, videosDone, sequencesDone]).then(() => {
     if (pctEl) pctEl.textContent = "100%";
-    el.classList.add("ready");
-    startBtn && startBtn.focus();
-  });
-
-  startBtn && startBtn.addEventListener("click", () => {
     el.classList.add("hide");
     showPoster(posterSrc, () => startScene(sceneFromHash()));
     preloadRemainingIdle();
     setTimeout(() => el.remove(), 700);
-  }, { once: true });
+  });
 }
 
 /* ══════════════════════════════════════════════════════

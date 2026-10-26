@@ -70,30 +70,6 @@ html, body {
   color: var(--warm);
   line-height: 1;
 }
-#preloader.ready #preloader-status { display: none; }
-#preloader-start {
-  opacity: 0;
-  transform: translateY(6px);
-  pointer-events: none;
-  padding: 13px 34px;
-  border: none;
-  border-radius: 999px;
-  background: var(--warm);
-  color: #14130f;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), background 0.2s;
-}
-#preloader-start:hover { background: #b3b4a6; }
-#preloader.ready #preloader-start {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
 @media (max-width: 600px) {
   #preloader-logo { width: min(100px, 40vw); }
   #preloader-pct { font-size: 28px; }
